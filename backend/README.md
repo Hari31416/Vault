@@ -1,8 +1,14 @@
 # MyTools Backend
 
-A Node.js/Express.js backend server for the MyTools MERN stack application with JWT authentication, user management, and MongoDB integration.
+A Node.js/Express.js backend server built with TypeScript for the MyTools MERN stack application with JWT authentication, user management, and MongoDB integration.
 
 ## Features
+
+- **TypeScript Implementation**
+
+  - Full TypeScript support with strict type checking
+  - Type-safe models, controllers, and middleware
+  - Compiled output for production deployment
 
 - **Authentication & Authorization**
 
@@ -38,13 +44,14 @@ MONGODB_URI=mongodb://localhost:27017/my-tools
 JWT_SECRET=your_jwt_secret_key_here_make_it_very_secure
 PORT=5000
 NODE_ENV=development
+FRONTEND_URL=http://localhost:3000
 ```
 
 3. Make sure MongoDB is running locally or update the MONGODB_URI to point to your MongoDB instance (e.g., MongoDB Atlas).
 
 ## Running the Server
 
-### Development
+### Development (with TypeScript)
 
 ```bash
 npm run dev
@@ -53,8 +60,16 @@ npm run dev
 ### Production
 
 ```bash
+npm run build
 npm start
 ```
+
+### Available Scripts
+
+- `npm run dev` - Start development server with TypeScript and hot reload
+- `npm run build` - Compile TypeScript to JavaScript
+- `npm start` - Start production server from compiled JavaScript
+- `npm run clean` - Remove compiled output directory
 
 The server will start on port 5000 (or the port specified in your .env file).
 
@@ -70,27 +85,34 @@ The server will start on port 5000 (or the port specified in your .env file).
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
 - `GET /api/auth/me` - Get current user (requires authentication)
+- `GET /api/auth/users-exist` - Check if any users exist in database
 - `POST /api/auth/create-user` - Create new user (admin only)
 
 ## Project Structure
 
 ```
 backend/
-├── config/
-│   └── database.js          # MongoDB connection
-├── controllers/
-│   ├── authController.js    # Authentication logic
-│   └── healthController.js  # Health check logic
-├── middleware/
-│   └── authMiddleware.js    # JWT authentication middleware
-├── models/
-│   └── User.js              # User model
-├── routes/
-│   ├── auth.js              # Authentication routes
-│   └── health.js            # Health check routes
-├── .env                     # Environment variables
+├── src/
+│   ├── config/
+│   │   └── database.ts          # MongoDB connection
+│   ├── controllers/
+│   │   ├── authController.ts    # Authentication logic
+│   │   └── healthController.ts  # Health check logic
+│   ├── middleware/
+│   │   └── authMiddleware.ts    # JWT authentication middleware
+│   ├── models/
+│   │   └── User.ts              # User model with TypeScript types
+│   ├── routes/
+│   │   ├── auth.ts              # Authentication routes
+│   │   └── health.ts            # Health check routes
+│   ├── types/
+│   │   └── index.ts             # TypeScript type definitions
+│   └── server.ts                # Main server file
+├── dist/                        # Compiled JavaScript output
+├── .env                         # Environment variables
+├── tsconfig.json                # TypeScript configuration
 ├── package.json
-└── server.js                # Main server file
+└── .gitignore
 ```
 
 ## Environment Variables
@@ -99,14 +121,29 @@ backend/
 - `JWT_SECRET`: Secret key for JWT token signing
 - `PORT`: Server port (default: 5000)
 - `NODE_ENV`: Environment (development/production)
+- `FRONTEND_URL`: Frontend URL for CORS configuration
 
 ## Dependencies
+
+### Runtime Dependencies
 
 - **express**: Web framework
 - **mongoose**: MongoDB ODM
 - **bcryptjs**: Password hashing
 - **jsonwebtoken**: JWT implementation
 - **cors**: Cross-origin resource sharing
+- **dotenv**: Environment variable management
+
+### Development Dependencies
+
+- **typescript**: TypeScript compiler
+- **ts-node**: TypeScript execution for Node.js
+- **nodemon**: Development server with auto-restart
+- **@types/node**: Node.js type definitions
+- **@types/express**: Express.js type definitions
+- **@types/cors**: CORS type definitions
+- **@types/bcryptjs**: bcryptjs type definitions
+- **@types/jsonwebtoken**: jsonwebtoken type definitions
 - **dotenv**: Environment variable loader
 
 ## Development Dependencies

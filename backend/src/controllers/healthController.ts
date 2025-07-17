@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+import { Request, Response } from "express";
+import mongoose from "mongoose";
 
-const getHealthStatus = async (req, res) => {
+const getHealthStatus = async (req: Request, res: Response): Promise<void> => {
   try {
     res.status(200).json({
       success: true,
@@ -13,12 +14,15 @@ const getHealthStatus = async (req, res) => {
       success: false,
       status: "ERROR",
       message: "Health check failed",
-      error: error.message,
+      error: (error as Error).message,
     });
   }
 };
 
-const getDetailedHealthStatus = async (req, res) => {
+const getDetailedHealthStatus = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const dbStatus =
       mongoose.connection.readyState === 1 ? "Connected" : "Disconnected";
@@ -56,12 +60,9 @@ const getDetailedHealthStatus = async (req, res) => {
       success: false,
       status: "ERROR",
       message: "Detailed health check failed",
-      error: error.message,
+      error: (error as Error).message,
     });
   }
 };
 
-module.exports = {
-  getHealthStatus,
-  getDetailedHealthStatus,
-};
+export { getHealthStatus, getDetailedHealthStatus };

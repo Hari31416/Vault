@@ -1,16 +1,13 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const {
+import {
   registerUser,
   loginUser,
   createNewUser,
   getCurrentUser,
   checkUsersExist,
-} = require("../controllers/authController");
-const {
-  authMiddleware,
-  adminMiddleware,
-} = require("../middleware/authMiddleware");
+} from "../controllers/authController";
+import { authMiddleware, adminMiddleware } from "../middleware/authMiddleware";
 
 // POST /api/auth/register - User registration
 router.post("/register", registerUser);
@@ -27,4 +24,4 @@ router.get("/users-exist", checkUsersExist);
 // POST /api/auth/create-user - Create new user (admin only)
 router.post("/create-user", authMiddleware, adminMiddleware, createNewUser);
 
-module.exports = router;
+export default router;

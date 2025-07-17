@@ -1,9 +1,9 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const {
+import {
   getHealthStatus,
   getDetailedHealthStatus,
-} = require("../controllers/healthController");
+} from "../controllers/healthController";
 
 // GET /api/health - Basic health check
 router.get("/", getHealthStatus);
@@ -11,4 +11,4 @@ router.get("/", getHealthStatus);
 // GET /api/health/detailed - Detailed health check
 router.get("/detailed", getDetailedHealthStatus);
 
-module.exports = router;
+export default router;

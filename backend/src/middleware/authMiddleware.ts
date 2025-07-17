@@ -1,25 +1,35 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+import { Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import User from "../models/User";
+import { AuthRequest, JWTPayload } from "../types";
 
-const authMiddleware = async (req, res, next) => {
+const authMiddleware = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         message: "Access denied. No token provided.",
       });
+      return;
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+      userId: string;
+    };
     const user = await User.findById(decoded.userId).select("-password");
 
     if (!user) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         message: "Invalid token. User not found.",
       });
+      return;
     }
 
     req.user = user;
@@ -32,7 +42,11 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-const adminMiddleware = (req, res, next) => {
+const adminMiddleware = (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+): void => {
   if (req.user && req.user.role === "admin") {
     next();
   } else {
@@ -43,4 +57,4 @@ const adminMiddleware = (req, res, next) => {
   }
 };
 
-module.exports = { authMiddleware, adminMiddleware };
+export { authMiddleware, adminMiddleware };

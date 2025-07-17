@@ -1,22 +1,27 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import User from "../models/User";
+import { AuthRequest, JWTPayload } from "../types";
 
 // Generate JWT token
-const generateToken = (userId) => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "7d" });
+const generateToken = (userId: string): string => {
+  return jwt.sign({ userId }, process.env.JWT_SECRET as string, {
+    expiresIn: "7d",
+  });
 };
 
 // Register user
-const registerUser = async (req, res) => {
+const registerUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username, email, password } = req.body;
 
     // Validate input
     if (!username || !email || !password) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: "Please provide username, email, and password",
       });
+      return;
     }
 
     // Check if user already exists
@@ -25,10 +30,11 @@ const registerUser = async (req, res) => {
     });
 
     if (existingUser) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: "User with this email or username already exists",
       });
+      return;
     }
 
     // Check if this is the first user (make them admin)
@@ -46,7 +52,7 @@ const registerUser = async (req, res) => {
     await user.save();
 
     // Generate token
-    const token = generateToken(user._id);
+    const token = generateToken(user._id as string);
 
     res.status(201).json({
       success: true,
@@ -65,44 +71,47 @@ const registerUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Registration failed",
-      error: error.message,
+      error: (error as Error).message,
     });
   }
 };
 
 // Login user
-const loginUser = async (req, res) => {
+const loginUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
 
     // Validate input
     if (!email || !password) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: "Please provide email and password",
       });
+      return;
     }
 
     // Find user
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         message: "Invalid credentials",
       });
+      return;
     }
 
     // Check password
     const isPasswordCorrect = await user.comparePassword(password);
     if (!isPasswordCorrect) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         message: "Invalid credentials",
       });
+      return;
     }
 
     // Generate token
-    const token = generateToken(user._id);
+    const token = generateToken(user._id as string);
 
     res.status(200).json({
       success: true,
@@ -121,30 +130,32 @@ const loginUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Login failed",
-      error: error.message,
+      error: (error as Error).message,
     });
   }
 };
 
 // Create new user (Admin only)
-const createNewUser = async (req, res) => {
+const createNewUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username, email, password, role = "user" } = req.body;
 
     // Validate input
     if (!username || !email || !password) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: "Please provide username, email, and password",
       });
+      return;
     }
 
     // Validate role
     if (!["user", "admin"].includes(role)) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: 'Invalid role. Must be either "user" or "admin"',
       });
+      return;
     }
 
     // Check if user already exists
@@ -153,10 +164,11 @@ const createNewUser = async (req, res) => {
     });
 
     if (existingUser) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: "User with this email or username already exists",
       });
+      return;
     }
 
     // Create new user
@@ -185,23 +197,26 @@ const createNewUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "User creation failed",
-      error: error.message,
+      error: (error as Error).message,
     });
   }
 };
 
 // Get current user
-const getCurrentUser = async (req, res) => {
+const getCurrentUser = async (
+  req: AuthRequest,
+  res: Response
+): Promise<void> => {
   try {
     res.status(200).json({
       success: true,
       message: "User retrieved successfully",
       data: {
         user: {
-          id: req.user._id,
-          username: req.user.username,
-          email: req.user.email,
-          role: req.user.role,
+          id: req.user?._id,
+          username: req.user?.username,
+          email: req.user?.email,
+          role: req.user?.role,
         },
       },
     });
@@ -209,13 +224,13 @@ const getCurrentUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to get user",
-      error: error.message,
+      error: (error as Error).message,
     });
   }
 };
 
 // Check if any users exist in the database
-const checkUsersExist = async (req, res) => {
+const checkUsersExist = async (req: Request, res: Response): Promise<void> => {
   try {
     const userCount = await User.countDocuments();
     res.json({
@@ -227,12 +242,12 @@ const checkUsersExist = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to check users",
-      error: error.message,
+      error: (error as Error).message,
     });
   }
 };
 
-module.exports = {
+export {
   registerUser,
   loginUser,
   createNewUser,
