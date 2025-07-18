@@ -17,9 +17,10 @@ const ConnectionCard: React.FC<ConnectionCardProps> = ({
 }) => {
   const { getPositionsByConnectionId, getCompanyById } = useConnections();
 
-  // Get current position for this connection
+  // Get positions for this connection
   const positions = getPositionsByConnectionId(connection._id!);
   const currentPosition = positions.find((pos) => pos.isCurrent);
+  const pastPositions = positions.filter((pos) => !pos.isCurrent);
   const currentCompany = currentPosition
     ? getCompanyById(currentPosition.companyId)
     : null;
@@ -57,6 +58,49 @@ const ConnectionCard: React.FC<ConnectionCardProps> = ({
               <i className="bi bi-person-workspace me-2 text-muted"></i>
               <span className="text-muted small">No current position</span>
             </div>
+          </div>
+        )}
+
+        {/* Position Summary */}
+        {positions.length > 0 && (
+          <div className="mb-3">
+            <div className="d-flex justify-content-between align-items-center">
+              <small className="text-muted">
+                {positions.length} position{positions.length !== 1 ? "s" : ""}
+              </small>
+              {pastPositions.length > 0 && (
+                <small className="text-muted">
+                  {pastPositions.length} past
+                </small>
+              )}
+            </div>
+            {/* Show past positions if any */}
+            {pastPositions.length > 0 && (
+              <div className="mt-2">
+                {pastPositions.slice(0, 2).map((position) => {
+                  const company = getCompanyById(position.companyId);
+                  return (
+                    <div
+                      key={position._id}
+                      className="d-flex align-items-center mb-1"
+                    >
+                      <i
+                        className="bi bi-briefcase me-2 text-muted"
+                        style={{ fontSize: "0.8rem" }}
+                      ></i>
+                      <span className="text-truncate small text-muted">
+                        {position.title} at {company?.name}
+                      </span>
+                    </div>
+                  );
+                })}
+                {pastPositions.length > 2 && (
+                  <small className="text-muted">
+                    +{pastPositions.length - 2} more...
+                  </small>
+                )}
+              </div>
+            )}
           </div>
         )}
 

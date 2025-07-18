@@ -25,6 +25,11 @@ const ConnectionsDashboard: React.FC = () => {
     createCompany,
     updateCompany,
     deleteCompany,
+    createPosition,
+    updatePosition,
+    deletePosition,
+    fetchPositions,
+    getPositionsByConnectionId,
   } = useConnections();
 
   const [searchResults, setSearchResults] = useState<{
@@ -44,6 +49,7 @@ const ConnectionsDashboard: React.FC = () => {
   useEffect(() => {
     fetchConnections();
     fetchCompanies();
+    fetchPositions();
   }, []);
 
   const handleSearchResults = (results: {
@@ -57,14 +63,109 @@ const ConnectionsDashboard: React.FC = () => {
     setSearchResults(null);
   };
 
-  const handleCreateConnection = async (data: ConnectionFormData) => {
-    await createConnection(data);
+  const handleCreateConnection = async (
+    data: ConnectionFormData & {
+      positions: Array<{
+        companyId: string;
+        title: string;
+        startDate: string;
+        endDate: string;
+        isCurrent: boolean;
+      }>;
+    }
+  ) => {
+    // Create the connection first
+    const newConnection = await createConnection({
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      linkedinUsername: data.linkedinUsername,
+      githubUsername: data.githubUsername,
+      notes: data.notes,
+    });
+
+    // Create positions if provided
+    if (data.positions && data.positions.length > 0 && newConnection._id) {
+      for (const position of data.positions) {
+        if (position.companyId && position.title) {
+          await createPosition({
+            connectionId: newConnection._id,
+            companyId: position.companyId,
+            title: position.title,
+            startDate: position.startDate
+              ? new Date(position.startDate)
+              : undefined,
+            endDate: position.endDate ? new Date(position.endDate) : undefined,
+            isCurrent: position.isCurrent,
+            notes: "",
+          });
+        }
+      }
+      // Refresh positions to ensure UI is updated
+      await fetchPositions();
+    }
   };
 
-  const handleUpdateConnection = async (data: ConnectionFormData) => {
+  const handleUpdateConnection = async (
+    data: ConnectionFormData & {
+      positions: Array<{
+        companyId: string;
+        title: string;
+        startDate: string;
+        endDate: string;
+        isCurrent: boolean;
+      }>;
+    }
+  ) => {
     if (editingConnection?._id) {
-      await updateConnection(editingConnection._id, data);
+      // Update the connection
+      await updateConnection(editingConnection._id, {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        linkedinUsername: data.linkedinUsername,
+        githubUsername: data.githubUsername,
+        notes: data.notes,
+      });
+
+      // Handle position updates
+      if (data.positions) {
+        // Get current positions for this connection
+        const currentPositions = getPositionsByConnectionId(
+          editingConnection._id
+        );
+
+        // Delete all current positions and recreate them
+        // This is simpler than trying to match and update individual positions
+        for (const position of currentPositions) {
+          if (position._id) {
+            await deletePosition(position._id);
+          }
+        }
+
+        // Create new positions
+        for (const position of data.positions) {
+          if (position.companyId && position.title) {
+            await createPosition({
+              connectionId: editingConnection._id,
+              companyId: position.companyId,
+              title: position.title,
+              startDate: position.startDate
+                ? new Date(position.startDate)
+                : undefined,
+              endDate: position.endDate
+                ? new Date(position.endDate)
+                : undefined,
+              isCurrent: position.isCurrent,
+              notes: "",
+            });
+          }
+        }
+      }
+
       setEditingConnection(undefined);
+      // Refresh positions to ensure UI is updated
+      await fetchPositions();
     }
   };
 
@@ -122,6 +223,18 @@ const ConnectionsDashboard: React.FC = () => {
     ? searchResults.companies
     : state.companies;
 
+  // Calculate interconnection statistics
+  const totalPositions = state.positions.length;
+  const currentPositions = state.positions.filter(
+    (pos) => pos.isCurrent
+  ).length;
+  const connectionsWithPositions = displayConnections.filter((conn) =>
+    state.positions.some((pos) => pos.connectionId === conn._id)
+  ).length;
+  const companiesWithPositions = displayCompanies.filter((company) =>
+    state.positions.some((pos) => pos.companyId === company._id)
+  ).length;
+
   if (state.loading) {
     return (
       <div className="container-fluid py-4">
@@ -148,6 +261,70 @@ const ConnectionsDashboard: React.FC = () => {
               Manage Positions
             </button>
           </div>
+
+          {/* Statistics Cards */}
+          <div className="row mb-3">
+            <div className="col-md-3 col-sm-6 mb-2">
+              <div className="card bg-primary text-white">
+                <div className="card-body text-center">
+                  <div className="d-flex justify-content-center align-items-center mb-2">
+                    <i className="bi bi-people display-6"></i>
+                  </div>
+                  <h4 className="card-title">{displayConnections.length}</h4>
+                  <p className="card-text">Total Connections</p>
+                  <small className="text-light">
+                    {connectionsWithPositions} with positions
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-3 col-sm-6 mb-2">
+              <div className="card bg-success text-white">
+                <div className="card-body text-center">
+                  <div className="d-flex justify-content-center align-items-center mb-2">
+                    <i className="bi bi-buildings display-6"></i>
+                  </div>
+                  <h4 className="card-title">{displayCompanies.length}</h4>
+                  <p className="card-text">Companies</p>
+                  <small className="text-light">
+                    {companiesWithPositions} with connections
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-3 col-sm-6 mb-2">
+              <div className="card bg-info text-white">
+                <div className="card-body text-center">
+                  <div className="d-flex justify-content-center align-items-center mb-2">
+                    <i className="bi bi-briefcase display-6"></i>
+                  </div>
+                  <h4 className="card-title">{totalPositions}</h4>
+                  <p className="card-text">Total Positions</p>
+                  <small className="text-light">
+                    {currentPositions} current
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-3 col-sm-6 mb-2">
+              <div className="card bg-warning text-white">
+                <div className="card-body text-center">
+                  <div className="d-flex justify-content-center align-items-center mb-2">
+                    <i className="bi bi-diagram-3 display-6"></i>
+                  </div>
+                  <h4 className="card-title">
+                    {totalPositions > 0
+                      ? Math.round((currentPositions / totalPositions) * 100)
+                      : 0}
+                    %
+                  </h4>
+                  <p className="card-text">Active Rate</p>
+                  <small className="text-light">Current positions ratio</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <SearchBar
             onResults={handleSearchResults}
             onClear={handleSearchClear}

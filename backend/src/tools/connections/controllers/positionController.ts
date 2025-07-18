@@ -10,10 +10,9 @@ export const getPositions = async (
   res: Response
 ): Promise<void> => {
   try {
-    const positions = await Position.find({ userId: req.user!.id })
-      .populate("connectionId", "name")
-      .populate("companyId", "name")
-      .sort({ createdAt: -1 });
+    const positions = await Position.find({ userId: req.user!.id }).sort({
+      createdAt: -1,
+    });
 
     res.json({
       success: true,
@@ -84,9 +83,7 @@ export const getPositionsByConnection = async (
     const positions = await Position.find({
       connectionId,
       userId: req.user!.id,
-    })
-      .populate("companyId", "name")
-      .sort({ startDate: -1 });
+    }).sort({ startDate: -1 });
 
     res.json({
       success: true,
@@ -122,9 +119,10 @@ export const getPositionsByCompany = async (
       return;
     }
 
-    const positions = await Position.find({ companyId, userId: req.user!.id })
-      .populate("connectionId", "name")
-      .sort({ startDate: -1 });
+    const positions = await Position.find({
+      companyId,
+      userId: req.user!.id,
+    }).sort({ startDate: -1 });
 
     res.json({
       success: true,

@@ -144,7 +144,7 @@ export const deleteCompany = async (
   try {
     const { id } = req.params;
 
-    const company = await Company.findOneAndDelete({
+    const company = await Company.findOne({
       _id: id,
       userId: req.user!.id,
     });
@@ -157,9 +157,16 @@ export const deleteCompany = async (
       return;
     }
 
+    // Delete all positions associated with this company
+    const Position = require("../models/Position").default;
+    await Position.deleteMany({ companyId: id, userId: req.user!.id });
+
+    // Delete the company
+    await Company.findByIdAndDelete(id);
+
     res.json({
       success: true,
-      message: "Company deleted successfully",
+      message: "Company and associated positions deleted successfully",
     });
   } catch (error) {
     console.error("Error deleting company:", error);

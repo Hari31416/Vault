@@ -1,5 +1,6 @@
 import React from "react";
 import { Company } from "../types";
+import { useConnections } from "../context/ConnectionsContext";
 
 interface CompanyCardProps {
   company: Company;
@@ -14,6 +15,22 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
   onDelete,
   onViewDetails,
 }) => {
+  const { getPositionsByCompanyId, getConnectionById } = useConnections();
+
+  // Get positions for this company
+  const positions = getPositionsByCompanyId(company._id!);
+  const currentPositions = positions.filter((pos) => pos.isCurrent);
+  const pastPositions = positions.filter((pos) => !pos.isCurrent);
+
+  // Get unique connections for this company
+  const uniqueConnectionIds = new Set(positions.map((pos) => pos.connectionId));
+  const connections = Array.from(uniqueConnectionIds)
+    .map((id) => getConnectionById(id))
+    .filter(
+      (connection): connection is NonNullable<typeof connection> =>
+        connection !== undefined
+    );
+
   const handleDelete = () => {
     if (window.confirm(`Are you sure you want to delete ${company.name}?`)) {
       onDelete(company._id!);
@@ -27,7 +44,9 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
           <i className="bi bi-buildings me-2 text-primary"></i>
           {company.name}
         </h5>
-        <div className="mb-2">
+
+        {/* Company Info */}
+        <div className="mb-3">
           {company.industry && (
             <div className="mb-2">
               <small className="text-muted">Industry</small>
@@ -51,6 +70,59 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
             </div>
           )}
         </div>
+
+        {/* Connections & Positions Summary */}
+        <div className="mb-3">
+          <div className="row text-center">
+            <div className="col-4">
+              <div className="text-primary">
+                <i className="bi bi-people"></i>
+              </div>
+              <small className="text-muted">Connections</small>
+              <div className="fw-bold">{connections.length}</div>
+            </div>
+            <div className="col-4">
+              <div className="text-success">
+                <i className="bi bi-briefcase-fill"></i>
+              </div>
+              <small className="text-muted">Current</small>
+              <div className="fw-bold">{currentPositions.length}</div>
+            </div>
+            <div className="col-4">
+              <div className="text-secondary">
+                <i className="bi bi-briefcase"></i>
+              </div>
+              <small className="text-muted">Past</small>
+              <div className="fw-bold">{pastPositions.length}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Sample connections */}
+        {connections.length > 0 && (
+          <div className="mb-2">
+            <small className="text-muted">Recent Connections:</small>
+            <div className="mt-1">
+              {connections.slice(0, 3).map((connection) => (
+                <div
+                  key={connection._id}
+                  className="d-flex align-items-center mb-1"
+                >
+                  <i
+                    className="bi bi-person-circle me-2 text-muted"
+                    style={{ fontSize: "0.8rem" }}
+                  ></i>
+                  <span className="text-truncate small">{connection.name}</span>
+                </div>
+              ))}
+              {connections.length > 3 && (
+                <small className="text-muted">
+                  +{connections.length - 3} more...
+                </small>
+              )}
+            </div>
+          </div>
+        )}
       </div>
       <div className="card-footer bg-transparent">
         <div className="btn-group w-100" role="group">

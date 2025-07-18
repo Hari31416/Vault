@@ -206,6 +206,15 @@ export const ConnectionsProvider: React.FC<{ children: ReactNode }> = ({
     try {
       await connectionService.delete(id);
       dispatch({ type: "DELETE_CONNECTION", payload: id });
+      // Also remove associated positions from the state
+      const positionsToDelete = state.positions.filter(
+        (position) => position.connectionId === id
+      );
+      positionsToDelete.forEach((position) => {
+        if (position._id) {
+          dispatch({ type: "DELETE_POSITION", payload: position._id });
+        }
+      });
     } catch (error) {
       dispatch({ type: "SET_ERROR", payload: "Failed to delete connection" });
       throw error;
@@ -251,6 +260,15 @@ export const ConnectionsProvider: React.FC<{ children: ReactNode }> = ({
     try {
       await companyService.delete(id);
       dispatch({ type: "DELETE_COMPANY", payload: id });
+      // Also remove associated positions from the state
+      const positionsToDelete = state.positions.filter(
+        (position) => position.companyId === id
+      );
+      positionsToDelete.forEach((position) => {
+        if (position._id) {
+          dispatch({ type: "DELETE_POSITION", payload: position._id });
+        }
+      });
     } catch (error) {
       dispatch({ type: "SET_ERROR", payload: "Failed to delete company" });
       throw error;
@@ -264,6 +282,7 @@ export const ConnectionsProvider: React.FC<{ children: ReactNode }> = ({
       const positions = await positionService.getAll();
       dispatch({ type: "SET_POSITIONS", payload: positions });
     } catch (error) {
+      console.error("Error fetching positions:", error);
       dispatch({ type: "SET_ERROR", payload: "Failed to fetch positions" });
     }
   };

@@ -63,4 +63,14 @@ PositionSchema.pre("save", function (next) {
   next();
 });
 
+// Transform ObjectIds to strings for JSON serialization
+PositionSchema.set("toJSON", {
+  transform: function (doc, ret) {
+    ret.connectionId = ret.connectionId.toString();
+    ret.companyId = ret.companyId.toString();
+    ret.userId = ret.userId.toString();
+    return ret;
+  },
+});
+
 export default mongoose.model<IPosition>("Position", PositionSchema);

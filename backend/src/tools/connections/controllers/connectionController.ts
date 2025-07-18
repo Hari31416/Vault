@@ -152,7 +152,7 @@ export const deleteConnection = async (
   try {
     const { id } = req.params;
 
-    const connection = await Connection.findOneAndDelete({
+    const connection = await Connection.findOne({
       _id: id,
       userId: req.user!.id,
     });
@@ -165,9 +165,16 @@ export const deleteConnection = async (
       return;
     }
 
+    // Delete all positions associated with this connection
+    const Position = require("../models/Position").default;
+    await Position.deleteMany({ connectionId: id, userId: req.user!.id });
+
+    // Delete the connection
+    await Connection.findByIdAndDelete(id);
+
     res.json({
       success: true,
-      message: "Connection deleted successfully",
+      message: "Connection and associated positions deleted successfully",
     });
   } catch (error) {
     console.error("Error deleting connection:", error);
