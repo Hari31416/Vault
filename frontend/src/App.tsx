@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminPanel from "./pages/AdminPanel";
+import ConnectionsApp from "./tools/connections";
 import "./App.css";
 
 const App: React.FC = () => {
@@ -43,6 +44,14 @@ const App: React.FC = () => {
                   element={
                     <ProtectedRoute adminOnly>
                       <AdminPanel />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/tools/connections/*"
+                  element={
+                    <ProtectedRoute>
+                      <ConnectionsApp />
                     </ProtectedRoute>
                   }
                 />

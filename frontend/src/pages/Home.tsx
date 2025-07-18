@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Home.css";
 
@@ -10,6 +11,7 @@ interface HealthStatus {
 }
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [healthStatus, setHealthStatus] = useState<HealthStatus | null>(null);
   const [loading, setLoading] = useState(true);
@@ -105,6 +107,37 @@ const Home: React.FC = () => {
           <h1>Welcome to MyTools</h1>
           <p>Your personal collection of useful web tools and utilities</p>
         </header>
+
+        {/* Available Tools Section */}
+        <section className="available-tools" style={{ margin: "2rem 0" }}>
+          <h2>Available Tools</h2>
+          <div className="row">
+            <div className="col-md-6 col-lg-4 mb-3">
+              <div
+                className="card h-100 tool-card"
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate("/tools/connections")}
+              >
+                <div className="card-body text-center">
+                  <div className="mb-3">
+                    <i className="bi bi-people display-4 text-primary"></i>
+                  </div>
+                  <h5 className="card-title">Connections Tracker</h5>
+                  <p className="card-text">
+                    Manage your professional and personal connections,
+                    companies, and employment positions.
+                  </p>
+                  <div className="mt-auto">
+                    <span className="badge bg-primary">
+                      Professional Networking
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Future tools can be added here */}
+          </div>
+        </section>
 
         {!loading && connectionFailed && (
           <section

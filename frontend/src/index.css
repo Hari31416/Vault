@@ -115,6 +115,295 @@ textarea:focus {
   outline-offset: 2px;
 }
 
+/* Bootstrap Component Overrides for Dark Mode */
+.form-control,
+.form-select,
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(var(--primary-rgb), 0.25);
+}
+
+.form-control::placeholder {
+  color: var(--text-secondary);
+}
+
+.form-label {
+  color: var(--text-color);
+}
+
+/* Select dropdown options */
+.form-select option {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+}
+
+/* Checkbox styling */
+.form-check-input {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.form-check-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(var(--primary-rgb), 0.25);
+}
+
+.form-check-label {
+  color: var(--text-color);
+}
+
+/* Date input styling */
+.form-control[type="date"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] .form-control[type="date"] {
+  color-scheme: dark;
+}
+
+/* Card styling */
+.card {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  transition: box-shadow 0.15s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .card {
+  box-shadow: 0 0.125rem 0.25rem rgba(255, 255, 255, 0.075);
+}
+
+[data-theme="dark"] .card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.15);
+}
+
+.card-body,
+.card-header,
+.card-footer {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.card-title {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.card-subtitle {
+  color: var(--text-secondary);
+}
+
+.card-text {
+  color: var(--text-color);
+}
+
+.text-muted {
+  color: var(--text-secondary) !important;
+}
+
+/* Badge styling */
+.badge {
+  color: var(--text-color);
+  font-size: 0.75rem;
+  padding: 0.35em 0.65em;
+  border-radius: 0.375rem;
+}
+
+.badge.bg-success {
+  background-color: var(--success-color) !important;
+}
+
+.badge.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.badge.bg-secondary {
+  background-color: var(--text-secondary) !important;
+}
+
+.badge.bg-warning {
+  background-color: var(--warning-color) !important;
+  color: var(--background-color) !important;
+}
+
+.badge.bg-danger {
+  background-color: var(--danger-color) !important;
+}
+
+.badge.bg-info {
+  background-color: var(--info-color) !important;
+}
+
+/* Bootstrap Icons styling */
+.bi {
+  display: inline-block;
+  vertical-align: -0.125em;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+.text-success {
+  color: var(--success-color) !important;
+}
+
+.text-danger {
+  color: var(--danger-color) !important;
+}
+
+.text-warning {
+  color: var(--warning-color) !important;
+}
+
+.text-info {
+  color: var(--info-color) !important;
+}
+
+.text-dark {
+  color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .text-dark {
+  color: var(--text-secondary) !important;
+}
+
+/* Font weight utilities */
+.fw-semibold {
+  font-weight: 600 !important;
+}
+
+/* Modal Styling */
+.modal-content {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.modal-header,
+.modal-footer {
+  border-color: var(--border-color);
+}
+
+.modal-title {
+  color: var(--text-color);
+}
+
+.btn-close {
+  filter: var(--bs-btn-close-white-filter, none);
+}
+
+[data-theme="dark"] .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Button Overrides */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--text-secondary);
+  border-color: var(--text-secondary);
+  color: var(--background-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--border-color);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+/* Outline button styles */
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--background-color);
+}
+
+.btn-outline-secondary {
+  color: var(--text-secondary);
+  border-color: var(--text-secondary);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--text-secondary);
+  border-color: var(--text-secondary);
+  color: var(--background-color);
+}
+
+.btn-outline-danger {
+  color: var(--danger-color);
+  border-color: var(--danger-color);
+}
+
+.btn-outline-danger:hover {
+  background-color: var(--danger-color);
+  border-color: var(--danger-color);
+  color: var(--background-color);
+}
+
+/* Navigation styling */
+.nav-tabs {
+  border-bottom-color: var(--border-color);
+}
+
+.nav-tabs .nav-link {
+  color: var(--text-secondary);
+  border-color: transparent;
+}
+
+.nav-tabs .nav-link:hover {
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.nav-tabs .nav-link.active {
+  color: var(--primary-color);
+  background-color: var(--background-color);
+  border-color: var(--border-color) var(--border-color) var(--background-color);
+}
+
+/* Disabled form elements */
+.form-control:disabled,
+.form-select:disabled {
+  background-color: var(--hover-bg);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
 /* Loading animation */
 @keyframes pulse {
   0% { opacity: 1; }
