@@ -25,11 +25,12 @@ const ConnectionDetails: React.FC = () => {
         setPositions(connectionPositions);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, state.connections, state.positions]);
 
   if (!connection) {
     return (
-      <div className="container-fluid py-4">
+      <div className="container py-4">
         <div className="text-center">
           <h3>Connection not found</h3>
           <button
@@ -53,7 +54,7 @@ const ConnectionDetails: React.FC = () => {
   };
 
   return (
-    <div className="container-fluid py-4">
+    <div className="container py-4">
       <div className="row mb-4">
         <div className="col-12">
           <button
@@ -189,7 +190,24 @@ const ConnectionDetails: React.FC = () => {
                           <div className="d-flex justify-content-between align-items-start">
                             <div>
                               <h6 className="mb-1">{position.title}</h6>
-                              <p className="mb-1 text-muted">{company?.name}</p>
+                              <p className="mb-1">
+                                <button
+                                  className="btn btn-link p-0 text-start text-decoration-none"
+                                  onClick={() =>
+                                    navigate(
+                                      `/tools/connections/company/${position.companyId}`
+                                    )
+                                  }
+                                  style={{
+                                    fontSize: "inherit",
+                                    color: "#0d6efd",
+                                    fontWeight: "500",
+                                  }}
+                                >
+                                  <i className="bi bi-buildings me-1"></i>
+                                  {company?.name}
+                                </button>
+                              </p>
                               <small className="text-muted">
                                 {position.startDate &&
                                   formatDate(position.startDate)}

@@ -26,7 +26,6 @@ const ConnectionsDashboard: React.FC = () => {
     updateCompany,
     deleteCompany,
     createPosition,
-    updatePosition,
     deletePosition,
     fetchPositions,
     getPositionsByConnectionId,
@@ -50,6 +49,7 @@ const ConnectionsDashboard: React.FC = () => {
     fetchConnections();
     fetchCompanies();
     fetchPositions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSearchResults = (results: {
@@ -237,7 +237,7 @@ const ConnectionsDashboard: React.FC = () => {
 
   if (state.loading) {
     return (
-      <div className="container-fluid py-4">
+      <div className="container py-4">
         <div className="text-center">
           <div className="spinner-border" role="status">
             <span className="visually-hidden">Loading...</span>
@@ -248,7 +248,7 @@ const ConnectionsDashboard: React.FC = () => {
   }
 
   return (
-    <div className="container-fluid py-4">
+    <div className="container py-4">
       <div className="row mb-4">
         <div className="col-12">
           <div className="d-flex justify-content-between align-items-center mb-3">
@@ -264,7 +264,7 @@ const ConnectionsDashboard: React.FC = () => {
 
           {/* Statistics Cards */}
           <div className="row mb-3">
-            <div className="col-md-3 col-sm-6 mb-2">
+            <div className="col-md-4 col-sm-6 mb-2">
               <div className="card bg-primary text-white">
                 <div className="card-body text-center">
                   <div className="d-flex justify-content-center align-items-center mb-2">
@@ -272,13 +272,13 @@ const ConnectionsDashboard: React.FC = () => {
                   </div>
                   <h4 className="card-title">{displayConnections.length}</h4>
                   <p className="card-text">Total Connections</p>
-                  <small className="text-light">
+                  <small className="text-dark">
                     {connectionsWithPositions} with positions
                   </small>
                 </div>
               </div>
             </div>
-            <div className="col-md-3 col-sm-6 mb-2">
+            <div className="col-md-4 col-sm-6 mb-2">
               <div className="card bg-success text-white">
                 <div className="card-body text-center">
                   <div className="d-flex justify-content-center align-items-center mb-2">
@@ -286,13 +286,13 @@ const ConnectionsDashboard: React.FC = () => {
                   </div>
                   <h4 className="card-title">{displayCompanies.length}</h4>
                   <p className="card-text">Companies</p>
-                  <small className="text-light">
+                  <small className="text-dark">
                     {companiesWithPositions} with connections
                   </small>
                 </div>
               </div>
             </div>
-            <div className="col-md-3 col-sm-6 mb-2">
+            <div className="col-md-4 col-sm-6 mb-2">
               <div className="card bg-info text-white">
                 <div className="card-body text-center">
                   <div className="d-flex justify-content-center align-items-center mb-2">
@@ -300,26 +300,9 @@ const ConnectionsDashboard: React.FC = () => {
                   </div>
                   <h4 className="card-title">{totalPositions}</h4>
                   <p className="card-text">Total Positions</p>
-                  <small className="text-light">
+                  <small className="text-dark">
                     {currentPositions} current
                   </small>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3 col-sm-6 mb-2">
-              <div className="card bg-warning text-white">
-                <div className="card-body text-center">
-                  <div className="d-flex justify-content-center align-items-center mb-2">
-                    <i className="bi bi-diagram-3 display-6"></i>
-                  </div>
-                  <h4 className="card-title">
-                    {totalPositions > 0
-                      ? Math.round((currentPositions / totalPositions) * 100)
-                      : 0}
-                    %
-                  </h4>
-                  <p className="card-text">Active Rate</p>
-                  <small className="text-light">Current positions ratio</small>
                 </div>
               </div>
             </div>

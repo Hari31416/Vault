@@ -24,6 +24,7 @@ const PositionsPage: React.FC = () => {
 
   useEffect(() => {
     fetchPositions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCreatePosition = async (data: PositionFormData) => {
@@ -65,7 +66,7 @@ const PositionsPage: React.FC = () => {
 
   if (state.loading) {
     return (
-      <div className="container-fluid py-4">
+      <div className="container py-4">
         <div className="text-center">
           <div className="spinner-border" role="status">
             <span className="visually-hidden">Loading...</span>
@@ -76,7 +77,7 @@ const PositionsPage: React.FC = () => {
   }
 
   return (
-    <div className="container-fluid py-4">
+    <div className="container py-4">
       <div className="row mb-4">
         <div className="col-12">
           <div className="d-flex justify-content-between align-items-center">

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Position } from "../types";
 
 interface PositionCardProps {
@@ -16,6 +17,8 @@ const PositionCard: React.FC<PositionCardProps> = ({
   onEdit,
   onDelete,
 }) => {
+  const navigate = useNavigate();
+
   const handleDelete = () => {
     if (window.confirm(`Are you sure you want to delete this position?`)) {
       onDelete(position._id!);
@@ -35,15 +38,41 @@ const PositionCard: React.FC<PositionCardProps> = ({
       <div className="card-body">
         <h5 className="card-title">{position.title}</h5>
         {connectionName && (
-          <h6 className="card-subtitle mb-2 text-muted">
-            <i className="bi bi-person me-1"></i>
-            {connectionName}
+          <h6 className="card-subtitle mb-2">
+            <button
+              className="btn btn-link p-0 text-start text-decoration-none"
+              onClick={() =>
+                navigate(
+                  `/tools/connections/connection/${position.connectionId}`
+                )
+              }
+              style={{
+                fontSize: "inherit",
+                color: "#6c757d",
+                fontWeight: "400",
+              }}
+            >
+              <i className="bi bi-person me-1"></i>
+              {connectionName}
+            </button>
           </h6>
         )}
         {companyName && (
-          <h6 className="card-subtitle mb-2 text-muted">
-            <i className="bi bi-buildings me-1 text-primary"></i>
-            {companyName}
+          <h6 className="card-subtitle mb-2">
+            <button
+              className="btn btn-link p-0 text-start text-decoration-none"
+              onClick={() =>
+                navigate(`/tools/connections/company/${position.companyId}`)
+              }
+              style={{
+                fontSize: "inherit",
+                color: "#0d6efd",
+                fontWeight: "500",
+              }}
+            >
+              <i className="bi bi-buildings me-1"></i>
+              {companyName}
+            </button>
           </h6>
         )}
         <div className="mb-2 text-primary">

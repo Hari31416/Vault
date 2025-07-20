@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Company, CompanyFormData } from "../types";
 
 interface CompanyModalProps {
@@ -20,6 +20,15 @@ const CompanyModal: React.FC<CompanyModalProps> = ({
     website: company?.website || "",
   });
   const [loading, setLoading] = useState(false);
+
+  // Update form data when company prop changes
+  useEffect(() => {
+    setFormData({
+      name: company?.name || "",
+      industry: company?.industry || "",
+      website: company?.website || "",
+    });
+  }, [company]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

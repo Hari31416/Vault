@@ -21,11 +21,12 @@ const CompanyDetails: React.FC = () => {
         setPositions(companyPositions);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, state.companies, state.positions]);
 
   if (!company) {
     return (
-      <div className="container-fluid py-4">
+      <div className="container py-4">
         <div className="text-center">
           <h3>Company not found</h3>
           <button
@@ -55,7 +56,7 @@ const CompanyDetails: React.FC = () => {
     .filter(Boolean);
 
   return (
-    <div className="container-fluid py-4">
+    <div className="container py-4">
       <div className="row mb-4">
         <div className="col-12">
           <button
@@ -157,13 +158,18 @@ const CompanyDetails: React.FC = () => {
                             <tr key={position._id}>
                               <td>
                                 <button
-                                  className="btn btn-link p-0 text-start"
+                                  className="btn btn-link p-0 text-start text-decoration-none"
                                   onClick={() =>
                                     navigate(
                                       `/tools/connections/connection/${position.connectionId}`
                                     )
                                   }
+                                  style={{
+                                    color: "#0d6efd",
+                                    fontWeight: "500",
+                                  }}
                                 >
+                                  <i className="bi bi-person me-1"></i>
                                   {connection?.name}
                                 </button>
                               </td>
@@ -230,16 +236,25 @@ const CompanyDetails: React.FC = () => {
                   {uniqueConnections.map((connection) => (
                     <div key={connection!._id} className="list-group-item px-0">
                       <button
-                        className="btn btn-link p-0 text-start w-100"
+                        className="btn btn-link p-0 text-start w-100 text-decoration-none"
                         onClick={() =>
                           navigate(
                             `/tools/connections/connection/${connection!._id}`
                           )
                         }
+                        style={{
+                          color: "inherit",
+                        }}
                       >
                         <div className="d-flex justify-content-between align-items-center">
                           <div>
-                            <h6 className="mb-1">{connection!.name}</h6>
+                            <h6
+                              className="mb-1"
+                              style={{ color: "#0d6efd", fontWeight: "500" }}
+                            >
+                              <i className="bi bi-person me-1"></i>
+                              {connection!.name}
+                            </h6>
                             {connection!.email && (
                               <small className="text-muted">
                                 {connection!.email}

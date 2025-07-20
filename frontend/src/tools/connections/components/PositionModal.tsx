@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Position, PositionFormData, Connection, Company } from "../types";
 
 interface PositionModalProps {
@@ -32,6 +32,23 @@ const PositionModal: React.FC<PositionModalProps> = ({
     notes: position?.notes || "",
   });
   const [loading, setLoading] = useState(false);
+
+  // Update form data when position prop changes
+  useEffect(() => {
+    setFormData({
+      connectionId: position?.connectionId || "",
+      companyId: position?.companyId || "",
+      title: position?.title || "",
+      startDate: position?.startDate
+        ? new Date(position.startDate).toISOString().split("T")[0]
+        : "",
+      endDate: position?.endDate
+        ? new Date(position.endDate).toISOString().split("T")[0]
+        : "",
+      isCurrent: position?.isCurrent || false,
+      notes: position?.notes || "",
+    });
+  }, [position]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
