@@ -130,17 +130,6 @@ const ConnectionCard: React.FC<ConnectionCardProps> = ({
               </a>
             </div>
           )}
-          {connection.phone && (
-            <div className="mb-1">
-              <i className="bi bi-telephone me-2 text-muted"></i>
-              <a
-                href={`tel:${connection.phone}`}
-                className="text-decoration-none small"
-              >
-                {connection.phone}
-              </a>
-            </div>
-          )}
           {connection.githubUsername && (
             <div className="mb-1">
               <i className="bi bi-github me-2 text-dark"></i>

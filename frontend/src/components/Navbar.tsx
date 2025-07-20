@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import ThemeToggle from "./ThemeToggle";
 import "./Navbar.css";
 
 const Navbar: React.FC = () => {
@@ -64,8 +63,6 @@ const Navbar: React.FC = () => {
               </>
             )}
           </div>
-
-          <ThemeToggle />
         </div>
       </div>
     </nav>
