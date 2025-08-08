@@ -104,6 +104,12 @@ const Home: React.FC = () => {
             >
               Explore TasteVault
             </button>
+            <button
+              className="btn outline"
+              onClick={() => navigate("/tools/nuance")}
+            >
+              Try NuanceVault
+            </button>
           </div>
         </div>
       </div>
@@ -167,6 +173,29 @@ const Home: React.FC = () => {
               </div>
             </article>
             {/* Future tool cards can be added here */}
+            <article
+              className="tool-card"
+              tabIndex={0}
+              role="button"
+              aria-label="Open NuanceVault"
+              onClick={() => navigate("/tools/nuance")}
+              onKeyDown={(e) => e.key === "Enter" && navigate("/tools/nuance")}
+            >
+              <div className="tool-icon-wrapper">
+                <i
+                  className="bi bi-journal-text tool-icon text-info"
+                  aria-hidden="true"
+                />
+              </div>
+              <h3>NuanceVault</h3>
+              <p>
+                Curate sets of near-synonyms and capture subtle differences with
+                examples for deeper vocabulary mastery.
+              </p>
+              <div className="tool-metadata">
+                <span className="badge category language">Language</span>
+              </div>
+            </article>
           </div>
         </section>
       </div>

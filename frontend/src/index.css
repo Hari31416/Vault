@@ -2,7 +2,8 @@
 :root {
   --primary-color: #238e8e;
   --primary-hover: #009bb3;
-  --primary-rgb: 0, 123, 255;
+  /* Updated to match teal brand color instead of bootstrap blue */
+  --primary-rgb: 35, 142, 142;
   --secondary-color: #6f42c1;
   --background-color: #ffffff;
   --card-bg: #ffffff;
@@ -52,6 +53,8 @@
   /* Adjust brand gradient slightly for dark mode vibrancy */
   --primary-color: #23b5b5;
   --primary-hover: #18c7e0;
+  /* Align RGB with dark mode primary color for shadows/gradients */
+  --primary-rgb: 35, 181, 181;
   --secondary-color: #9066ff;
   --score-high-start:#23c784; --score-high-end:#36e198; /* brighter for contrast */
   --score-mid-start:#f6b552; --score-mid-end:#ffce5f; /* warmed slightly */

@@ -13,6 +13,7 @@ import AdminPanel from "./pages/AdminPanel";
 import ConnectionsApp from "./tools/connections";
 import TasteVaultApp from "./tools/savorscore";
 import SEO from "./components/SEO";
+import NuanceVaultApp from "./tools/nuancevault";
 import "./App.css";
 
 const App: React.FC = () => {
@@ -119,6 +120,27 @@ const App: React.FC = () => {
                           canonical="https://www.example.com/tools/savorscore"
                         />
                         <TasteVaultApp />
+                      </>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/tools/nuance/*"
+                  element={
+                    <ProtectedRoute>
+                      <>
+                        <SEO
+                          title="NuanceVault"
+                          description="Explore subtle distinctions among similar words: definitions, differences, examples."
+                          keywords={[
+                            "nuancevault",
+                            "similar words",
+                            "synonyms",
+                            "vocabulary tool",
+                          ]}
+                          canonical="https://www.example.com/tools/nuance"
+                        />
+                        <NuanceVaultApp />
                       </>
                     </ProtectedRoute>
                   }
