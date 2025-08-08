@@ -74,4 +74,27 @@ export const nuanceService = {
     );
     return res.data;
   },
+  async getGamification() {
+    const res = await axios.get(
+      `${NV_API_BASE}/gamification`,
+      getAuthHeaders()
+    );
+    return res.data.data;
+  },
+  async recordPractice(setId: string, wasCorrect: boolean) {
+    const res = await axios.post(
+      `${NV_API_BASE}/gamification/practice`,
+      { setId, wasCorrect },
+      getAuthHeaders()
+    );
+    return res.data;
+  },
+  async resetGamification() {
+    const res = await axios.post(
+      `${NV_API_BASE}/gamification/reset`,
+      {},
+      getAuthHeaders()
+    );
+    return res.data;
+  },
 };
