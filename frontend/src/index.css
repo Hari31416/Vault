@@ -542,3 +542,33 @@ textarea:focus {
 :root[data-theme='dark'] .savor-website,
 :root[data-theme='dark'] .savor-dish-restaurant,
 :root[data-theme='dark'] .savor-dish-description { color: var(--text-secondary); }
+
+/* Additional dark mode text normalization for detail & list views */
+:root[data-theme='dark'] .card p,
+:root[data-theme='dark'] .card li,
+:root[data-theme='dark'] .list-group-item,
+:root[data-theme='dark'] .progress,
+:root[data-theme='dark'] .progress-bar {
+  color: var(--text-color) !important;
+}
+:root[data-theme='dark'] .text-black,
+:root[data-theme='dark'] .text-body,
+:root[data-theme='dark'] .text-body-emphasis {
+  color: var(--text-color) !important;
+}
+:root[data-theme='dark'] .progress { background-color: #2a2a2a; }
+:root[data-theme='dark'] .progress-bar { background-color: var(--primary-color); }
+
+/* Dark mode fix for rating metric labels inside cards (divs not previously targeted) */
+:root[data-theme='dark'] .card .row.small div,
+:root[data-theme='dark'] .card .row.small span,
+:root[data-theme='dark'] .card .row.small strong {
+  color: var(--text-color) !important;
+}
+:root[data-theme='dark'] .card .row.small div .text-muted { color: var(--text-secondary) !important; }
+
+/* Dark mode fix for rating detail view (uses .d-flex.small inside columns) */
+:root[data-theme='dark'] .card .d-flex.small span,
+:root[data-theme='dark'] .card .d-flex.small strong {
+  color: var(--text-color) !important;
+}
