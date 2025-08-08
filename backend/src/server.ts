@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth";
 import healthRoutes from "./routes/health";
 import connectionsToolRoutes from "./tools/connections/routes";
 import savorscoreToolRoutes from "./tools/savorscore/routes";
+import nuancevaultToolRoutes from "./tools/nuancevault/routes";
 
 // Load environment variables
 dotenv.config();
@@ -30,6 +31,7 @@ app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/tools/connections", connectionsToolRoutes);
 app.use("/api/tools/savorscore", savorscoreToolRoutes);
+app.use("/api/tools/nuancevault", nuancevaultToolRoutes);
 
 // Default route
 app.get("/", (req, res) => {
@@ -56,6 +58,11 @@ app.get("/", (req, res) => {
           restaurants: "/api/tools/savorscore/restaurants",
           dishes: "/api/tools/savorscore/dishes",
           ratings: "/api/tools/savorscore/ratings",
+        },
+        nuancevault: {
+          groups: "/api/tools/nuancevault/groups",
+          import: "/api/tools/nuancevault/import",
+          export: "/api/tools/nuancevault/export",
         },
       },
     },
