@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import AdminPanel from "./pages/AdminPanel";
 import ConnectionsApp from "./tools/connections";
 import TasteVaultApp from "./tools/savorscore";
+import SEO from "./components/SEO";
 import "./App.css";
 
 const App: React.FC = () => {
@@ -20,6 +21,7 @@ const App: React.FC = () => {
       <AuthProvider>
         <Router>
           <div className="App">
+            <SEO />
             <Navbar />
             <main>
               <Routes>
@@ -27,16 +29,43 @@ const App: React.FC = () => {
                   path="/"
                   element={
                     <HomeRedirect>
-                      <Home />
+                      {/* Per page SEO override */}
+                      <>
+                        <SEO
+                          title="Home"
+                          description="Vault productivity suite: manage connections (ConnectVault) and track dining experiences (TasteVault)."
+                          keywords={[
+                            "vault",
+                            "connectvault",
+                            "tastevault",
+                            "productivity tools",
+                            "personal crm",
+                            "restaurant ratings",
+                          ]}
+                          canonical="https://www.example.com/"
+                        />
+                        <Home />
+                      </>
                     </HomeRedirect>
                   }
                 />
-                <Route path="/login" element={<Login />} />
+                <Route
+                  path="/login"
+                  element={
+                    <>
+                      <SEO title="Login" noIndex />
+                      <Login />
+                    </>
+                  }
+                />
                 <Route
                   path="/register"
                   element={
                     <RegisterRoute>
-                      <Register />
+                      <>
+                        <SEO title="Register" noIndex />
+                        <Register />
+                      </>
                     </RegisterRoute>
                   }
                 />
@@ -44,7 +73,10 @@ const App: React.FC = () => {
                   path="/admin"
                   element={
                     <ProtectedRoute adminOnly>
-                      <AdminPanel />
+                      <>
+                        <SEO title="Admin Panel" noIndex />
+                        <AdminPanel />
+                      </>
                     </ProtectedRoute>
                   }
                 />
@@ -52,7 +84,20 @@ const App: React.FC = () => {
                   path="/tools/connections/*"
                   element={
                     <ProtectedRoute>
-                      <ConnectionsApp />
+                      <>
+                        <SEO
+                          title="ConnectVault"
+                          description="Manage professional and personal connections, companies and positions with ConnectVault."
+                          keywords={[
+                            "connections manager",
+                            "networking tool",
+                            "personal crm",
+                            "company tracker",
+                          ]}
+                          canonical="https://www.example.com/tools/connections"
+                        />
+                        <ConnectionsApp />
+                      </>
                     </ProtectedRoute>
                   }
                 />
@@ -60,7 +105,21 @@ const App: React.FC = () => {
                   path="/tools/savorscore/*"
                   element={
                     <ProtectedRoute>
-                      <TasteVaultApp />
+                      <>
+                        <SEO
+                          title="TasteVault"
+                          description="Track and rate restaurants and dishes with detailed scoring in TasteVault."
+                          keywords={[
+                            "restaurant ratings",
+                            "dish ratings",
+                            "food tracker",
+                            "dining log",
+                            "savor score",
+                          ]}
+                          canonical="https://www.example.com/tools/savorscore"
+                        />
+                        <TasteVaultApp />
+                      </>
                     </ProtectedRoute>
                   }
                 />

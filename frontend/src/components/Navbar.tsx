@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
+import logo from "../logo.svg";
 import "./Navbar.css";
 
 const Navbar: React.FC = () => {
@@ -17,7 +18,12 @@ const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand" aria-label="Vault Home">
+          <img
+            src={logo}
+            alt="Vault logo"
+            style={{ height: 34, width: 34, marginRight: 8 }}
+          />{" "}
           Vault
         </Link>
 
