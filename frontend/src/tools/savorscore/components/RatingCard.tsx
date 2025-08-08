@@ -22,23 +22,24 @@ const RatingCard: React.FC<RatingCardProps> = ({
     });
   };
 
-  const getScoreColor = (score: number) => {
-    if (score >= 4) return "text-success";
-    if (score >= 3) return "text-warning";
-    return "text-danger";
+  const getScoreBadgeClass = () => {
+    const n = rating.averageScore;
+    if (n === undefined || n === null || isNaN(n))
+      return "score-badge score-empty";
+    if (n >= 4.2) return "score-badge score-high";
+    if (n >= 3.3) return "score-badge score-mid";
+    return "score-badge score-low";
   };
 
   return (
-    <div className="card h-100">
+    <div className="card h-100 rating-card">
       <div className="card-body">
         <div className="d-flex justify-content-between align-items-start mb-2">
           <h6 className="card-title mb-0">{rating.dishName}</h6>
-          <span
-            className={`badge ${getScoreColor(
-              rating.averageScore
-            )} rating-score-badge`}
-          >
-            <strong>{rating.averageScore.toFixed(1)}/5</strong>
+          <span className={getScoreBadgeClass()} title="Average Score">
+            {rating.averageScore !== undefined && rating.averageScore !== null
+              ? `${rating.averageScore.toFixed(1)}/5`
+              : "--"}
           </span>
         </div>
 

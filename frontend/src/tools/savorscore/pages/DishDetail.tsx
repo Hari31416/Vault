@@ -40,13 +40,22 @@ const DishDetail: React.FC = () => {
         ratings.reduce((sum, r) => sum + r.averageScore, 0) / ratings.length
       ).toFixed(1)
     : "N/A";
+  const avgScoreNum = avgScore === "N/A" ? null : parseFloat(avgScore);
+  const topRecent = ratings.slice(0, 6);
 
   return (
-    <div className="container py-4">
+    <div className="container py-4 dish-detail-view">
       <button className="btn btn-link" onClick={() => navigate(-1)}>
         <i className="bi bi-arrow-left"></i> Back
       </button>
-      <h2 className="mb-3">{dish.name}</h2>
+      <h2 className="mb-3 d-flex align-items-center gap-3">
+        {dish.name}
+        {avgScore !== "N/A" && (
+          <span className="score-badge score-large" title="Average Score">
+            {avgScore}/5
+          </span>
+        )}
+      </h2>
       <div className="row mb-4">
         <div className="col-md-8">
           <div className="card mb-3">
@@ -83,39 +92,88 @@ const DishDetail: React.FC = () => {
           </div>
         </div>
         <div className="col-md-4">
-          <div className="card mb-3 bg-light">
+          <div className="card mb-3 stat-card">
             <div className="card-body text-center">
-              <h6>Total Ratings</h6>
-              <div className="display-6">{ratings.length}</div>
+              <div className="stat-label">Total Ratings</div>
+              <div className="stat-number">{ratings.length}</div>
             </div>
           </div>
-          <div className="card bg-light">
+          <div className="card score-focus-card">
             <div className="card-body text-center">
-              <h6>Average Score</h6>
-              <div className="display-6">{avgScore}</div>
+              <div className="stat-label mb-2">Average Score</div>
+              {avgScoreNum !== null ? (
+                <div className="score-circle-wrapper mx-auto mb-2">
+                  <div
+                    className={`score-circle ${
+                      avgScoreNum >= 4.2
+                        ? "score-high"
+                        : avgScoreNum >= 3.3
+                        ? "score-mid"
+                        : "score-low"
+                    }`}
+                    style={{
+                      ["--p" as any]: ((avgScoreNum / 5) * 100).toFixed(0),
+                    }}
+                  >
+                    <div className="inner">
+                      <div className="main-score">{avgScore}/5</div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-muted">N/A</div>
+              )}
             </div>
           </div>
         </div>
       </div>
-
       <h4 className="mt-4">Recent Ratings</h4>
       {ratings.length === 0 ? (
         <p className="text-muted">No ratings for this dish yet.</p>
       ) : (
-        <div className="row">
-          {ratings.slice(0, 6).map((r) => (
+        <div className="row rating-mini-cards">
+          {topRecent.map((r) => (
             <div key={r._id} className="col-md-4 mb-3">
-              <div className="card h-100">
+              <div className="card h-100 rating-mini-card">
                 <div className="card-body">
-                  <p className="mb-1">
-                    <strong>Score:</strong> {r.averageScore.toFixed(1)}
-                  </p>
-                  <p className="mb-1">
-                    <strong>Date:</strong>{" "}
-                    {new Date(r.dateVisited).toLocaleDateString()}
-                  </p>
+                  <div className="d-flex justify-content-between align-items-start mb-2">
+                    <div className="small fw-semibold clamp-1">
+                      {new Date(r.dateVisited).toLocaleDateString()}
+                    </div>
+                    <span
+                      className={`score-badge score-tiny ${
+                        r.averageScore >= 4.2
+                          ? "score-high"
+                          : r.averageScore >= 3.3
+                          ? "score-mid"
+                          : "score-low"
+                      }`}
+                    >
+                      {r.averageScore.toFixed(1)}/5
+                    </span>
+                  </div>
+                  <div className="rating-bars small mb-2">
+                    <div className="rb-row d-flex justify-content-between align-items-center">
+                      <span className="rb-label">Flavor</span>
+                      <div className="rb-meter">
+                        <div
+                          style={{ width: `${(r.overallFlavor / 5) * 100}%` }}
+                        />
+                      </div>
+                      <span className="rb-val">{r.overallFlavor}/5</span>
+                    </div>
+                    <div className="rb-row d-flex justify-content-between align-items-center">
+                      <span className="rb-label">Value</span>
+                      <div className="rb-meter">
+                        <div
+                          style={{ width: `${(r.valueForMoney / 5) * 100}%` }}
+                        />
+                      </div>
+                      <span className="rb-val">{r.valueForMoney}/5</span>
+                    </div>
+                  </div>
                   <button
-                    className="btn btn-sm btn-outline-primary"
+                    className="btn btn-sm btn-outline-primary w-100"
                     onClick={() =>
                       navigate(`/tools/savorscore/rating/${r._id}`)
                     }

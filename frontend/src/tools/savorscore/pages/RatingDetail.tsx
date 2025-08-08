@@ -50,40 +50,57 @@ const RatingDetail: React.FC = () => {
     },
   ];
 
+  const getScoreClass = (score: number) => {
+    if (score >= 4.2) return "score-high";
+    if (score >= 3.3) return "score-mid";
+    return "score-low";
+  };
+
   return (
-    <div className="container py-4">
+    <div className="container py-4 rating-detail-view">
       <button className="btn btn-link" onClick={() => navigate(-1)}>
         <i className="bi bi-arrow-left"></i> Back
       </button>
-      <h2 className="mb-3">Rating Details</h2>
+      <h2 className="mb-3 d-flex align-items-center gap-3">
+        Rating Details
+        <span
+          className={`score-badge score-large ${getScoreClass(
+            rating.averageScore
+          )}`}
+        >
+          {rating.averageScore.toFixed(1)}/5
+        </span>
+      </h2>
       <div className="row">
         <div className="col-md-8 mb-3">
-          <div className="card">
+          <div className="card enhanced-rating-card">
             <div className="card-body">
-              <h5 className="card-title">
+              <h5 className="card-title d-flex align-items-center gap-2">
                 {dish?.name || rating.dishName || "Dish"}
+                {rating.wouldOrderAgain && (
+                  <span className="badge bg-success">Would Order Again</span>
+                )}
               </h5>
-              <p className="mb-1">
-                <strong>Restaurant:</strong>{" "}
-                {restaurant?.name || rating.restaurantName}
-              </p>
-              <p className="mb-1">
-                <strong>Date Visited:</strong>{" "}
-                {new Date(rating.dateVisited).toLocaleDateString()}
-              </p>
-              <p className="mb-3">
-                <strong>Average Score:</strong> {rating.averageScore.toFixed(1)}
-              </p>
-              <div className="row">
+              <div className="detail-meta small text-muted mb-3 d-flex flex-wrap gap-3">
+                <span>
+                  <i className="bi bi-shop me-1"></i>
+                  {restaurant?.name || rating.restaurantName}
+                </span>
+                <span>
+                  <i className="bi bi-calendar me-1"></i>
+                  {new Date(rating.dateVisited).toLocaleDateString()}
+                </span>
+              </div>
+              <div className="row criteria-grid">
                 {criteria.map((c) => (
-                  <div key={c.label} className="col-sm-6 mb-2">
-                    <div className="d-flex justify-content-between small">
-                      <span>{c.label}</span>
-                      <strong>{c.value}/5</strong>
+                  <div key={c.label} className="col-sm-6 mb-3">
+                    <div className="crit-label-row d-flex justify-content-between align-items-center mb-1 small">
+                      <span className="crit-label clamp-2">{c.label}</span>
+                      <strong className="crit-value">{c.value}/5</strong>
                     </div>
-                    <div className="progress" style={{ height: 6 }}>
+                    <div className="progress progress-thin">
                       <div
-                        className="progress-bar"
+                        className={`progress-bar ${getScoreClass(c.value)}`}
                         role="progressbar"
                         style={{ width: `${(c.value / 5) * 100}%` }}
                       />
@@ -91,25 +108,38 @@ const RatingDetail: React.FC = () => {
                   </div>
                 ))}
               </div>
-              {rating.wouldOrderAgain && (
-                <span className="badge bg-success mt-2">Would Order Again</span>
-              )}
               {rating.notes && (
-                <p className="mt-3">
-                  <strong>Notes:</strong>
-                  <br />
-                  {rating.notes}
-                </p>
+                <div className="mt-3">
+                  <h6 className="fw-semibold mb-1 small text-uppercase opacity-75">
+                    Notes
+                  </h6>
+                  <p className="mb-0 small lh-base">{rating.notes}</p>
+                </div>
               )}
             </div>
           </div>
         </div>
         <div className="col-md-4 mb-3">
-          <div className="card">
+          <div className="card score-focus-card">
             <div className="card-body text-center">
-              <h6>Score</h6>
-              <div className="display-5">{rating.averageScore.toFixed(1)}</div>
-              <small className="text-muted">out of 5</small>
+              <div className="score-circle-wrapper mx-auto mb-3">
+                <div
+                  className={`score-circle ${getScoreClass(
+                    rating.averageScore
+                  )}`}
+                >
+                  <div className="inner">
+                    <div className="main-score">
+                      {rating.averageScore.toFixed(1)}/5
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mini-breakdown d-flex justify-content-center gap-3 small">
+                <span>Flavor {rating.overallFlavor}</span>
+                <span>Value {rating.valueForMoney}</span>
+                <span>Craving {rating.cravingAndReorderLikelihood}</span>
+              </div>
             </div>
           </div>
         </div>

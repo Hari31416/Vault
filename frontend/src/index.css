@@ -26,6 +26,9 @@
   --info-color: #17a2b8;
   --info-bg: #d1ecf1;
   --info-border: #bee5eb;
+  --score-high-start:#1fa96d; --score-high-end:#30c27f;
+  --score-mid-start:#f0ad4e; --score-mid-end:#ffc451;
+  --score-low-start:#dc3545; --score-low-end:#ff5b6a;
 }
 
 /* Dark Theme */
@@ -50,6 +53,9 @@
   --primary-color: #23b5b5;
   --primary-hover: #18c7e0;
   --secondary-color: #9066ff;
+  --score-high-start:#23c784; --score-high-end:#36e198; /* brighter for contrast */
+  --score-mid-start:#f6b552; --score-mid-end:#ffce5f; /* warmed slightly */
+  --score-low-start:#ff5564; --score-low-end:#ff7883; /* slightly lighter reds */
 }
 
 :root[data-theme='dark'] body {
@@ -572,3 +578,84 @@ textarea:focus {
 :root[data-theme='dark'] .card .d-flex.small strong {
   color: var(--text-color) !important;
 }
+
+/* SavorScore Enhanced Styling */
+.score-badge { 
+  display:inline-flex; align-items:center; justify-content:center; 
+  font-weight:600; font-size:.75rem; padding:.3rem .55rem; border-radius:0.5rem; 
+  background:var(--hover-bg); color:var(--text-color); min-width:2.25rem; 
+  line-height:1; box-shadow:0 1px 2px rgba(0,0,0,.08); position:relative; 
+  letter-spacing:.5px; font-variant-numeric:tabular-nums; 
+}
+.score-badge.score-large { font-size:1.15rem; padding:.55rem .9rem; border-radius:0.75rem; min-width:3.25rem; background:linear-gradient(145deg,var(--primary-color),var(--secondary-color)); color:#fff; box-shadow:0 4px 12px -2px rgba(0,0,0,.35); }
+.score-badge.score-tiny { font-size:.65rem; padding:.2rem .4rem; min-width:1.9rem; }
+.score-badge.score-high { background:linear-gradient(145deg,var(--score-high-start),var(--score-high-end)); color:#fff; }
+.score-badge.score-mid { background:linear-gradient(145deg,var(--score-mid-start),var(--score-mid-end)); color:#212529; }
+.score-badge.score-low { background:linear-gradient(145deg,var(--score-low-start),var(--score-low-end)); color:#fff; }
+.score-badge.score-empty { background:var(--hover-bg); color:var(--text-secondary); }
+
+:root[data-theme='dark'] .score-badge { /* removed background color to allow variant gradients */ box-shadow:0 2px 6px -2px rgba(0,0,0,.6); }
+:root[data-theme='dark'] .score-badge.score-empty { background:#303030; color: var(--text-color); border:1px solid #3a3a3a; }
+
+.stat-card .stat-label { font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; font-weight:600; opacity:.7; }
+.stat-card .stat-number { font-size:1.9rem; font-weight:600; line-height:1; }
+.avg-score-card .stat-number { font-size:2.25rem; }
+.gradient-text { background:linear-gradient(135deg,var(--primary-color),var(--secondary-color)); -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
+
+.rating-mini-card { transition:transform .15s ease, box-shadow .15s ease; }
+.rating-mini-card:hover { transform:translateY(-2px); box-shadow:0 6px 14px -4px rgba(0,0,0,.25); }
+.rating-mini-card .rb-row { gap:.35rem; }
+.rating-mini-card .rb-meter { flex:1; height:6px; background:var(--hover-bg); border-radius:4px; overflow:hidden; position:relative; }
+.rating-mini-card .rb-meter > div { position:absolute; top:0; left:0; bottom:0; background:linear-gradient(90deg,var(--primary-color),var(--secondary-color)); }
+:root[data-theme='dark'] .rating-mini-card .rb-meter { background:#242424; }
+:root[data-theme='dark'] .rating-mini-card .rb-label,
+:root[data-theme='dark'] .rating-mini-card .rb-val,
+:root[data-theme='dark'] .rating-mini-card h6,
+:root[data-theme='dark'] .rating-mini-card .small { color: var(--text-color) !important; }
+:root[data-theme='dark'] .rating-mini-card .rb-val { color: var(--text-color) !important; }
+
+/* Progress Bar Styles */
+.progress.progress-thin { height:6px; background:var(--hover-bg); }
+:root[data-theme='dark'] .progress.progress-thin { background:#242424; }
+.progress-bar.score-high { background:linear-gradient(90deg,#1fa96d,#30c27f); }
+.progress-bar.score-mid { background:linear-gradient(90deg,#f0ad4e,#ffc451); }
+.progress-bar.score-low { background:linear-gradient(90deg,#dc3545,#ff5b6a); }
+
+.enhanced-rating-card { position:relative; overflow:hidden; }
+.enhanced-rating-card:before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 85% 15%,rgba(var(--primary-rgb),0.12),transparent 60%); pointer-events:none; }
+:root[data-theme='dark'] .enhanced-rating-card:before { background:radial-gradient(circle at 85% 15%,rgba(255,255,255,0.05),transparent 60%); }
+
+.score-focus-card { background:linear-gradient(145deg,var(--card-bg),var(--hover-bg)); }
+:root[data-theme='dark'] .score-focus-card { background:linear-gradient(145deg,#1c1c1c,#242424); }
+.score-circle-wrapper { width:150px; height:150px; position:relative; }
+.score-circle { width:100%; height:100%; border-radius:50%; display:flex; align-items:center; justify-content:center; background:conic-gradient(var(--primary-color) calc(var(--p)*1%), rgba(var(--primary-rgb), .15) 0); position:relative; }
+.score-circle .inner { width:72%; height:72%; background:var(--card-bg); border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:inset 0 0 0 1px var(--border-color); }
+:root[data-theme='dark'] .score-circle .inner { background:#161616; }
+.score-circle .main-score { font-size:2rem; font-weight:600; line-height:1; }
+.score-circle .out-of { opacity:.6; }
+.score-circle.score-high { --p: 90; }
+.score-circle.score-mid { --p: 66; }
+.score-circle.score-low { --p: 45; }
+
+/* Utility clamps */
+.clamp-1 { display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; line-clamp:1; }
+.clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; line-clamp:2; }
+
+/* Fine tune typography in detail views */
+.restaurant-detail-view .stat-number, .dish-detail-view .stat-number { font-variant-numeric:tabular-nums; }
+.rating-detail-view .criteria-grid .crit-label { font-weight:500; }
+.rating-detail-view .criteria-grid .crit-value { font-size:.75rem; font-weight:600; padding:.15rem .35rem; border-radius:.35rem; background:var(--hover-bg); }
+:root[data-theme='dark'] .rating-detail-view .criteria-grid .crit-value { background:#242424; }
+
+/* Dark Mode adjustments for new elements */
+:root[data-theme='dark'] .score-badge.score-large { box-shadow:0 4px 12px -2px rgba(0,0,0,.6); }
+:root[data-theme='dark'] .stat-card { box-shadow:0 2px 6px -2px rgba(0,0,0,.7); }
+:root[data-theme='dark'] .rating-mini-card:hover { box-shadow:0 8px 18px -6px rgba(0,0,0,.8); }
+
+/* Dark mode visibility fixes for SavorScore stat & score components */
+:root[data-theme='dark'] .stat-card .stat-label,
+:root[data-theme='dark'] .stat-card .stat-number,
+:root[data-theme='dark'] .score-focus-card .stat-label,
+:root[data-theme='dark'] .score-focus-card .avg-mini-metrics span { color: var(--text-color) !important; }
+:root[data-theme='dark'] .score-circle .main-score,
+:root[data-theme='dark'] .score-circle .out-of { color: var(--text-color) !important; }
