@@ -17,7 +17,7 @@ const DishModal: React.FC<DishModalProps> = ({
   restaurants,
 }) => {
   const [formData, setFormData] = useState<DishFormData>({
-    restaurantId: "",
+    restaurantId: undefined,
     name: "",
     description: "",
     category: "Other",
@@ -39,7 +39,7 @@ const DishModal: React.FC<DishModalProps> = ({
       });
     } else {
       setFormData({
-        restaurantId: "",
+        restaurantId: undefined,
         name: "",
         description: "",
         category: "Other",
@@ -52,7 +52,9 @@ const DishModal: React.FC<DishModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    const payload: DishFormData = { ...formData };
+    if (!payload.restaurantId) delete (payload as any).restaurantId; // remove undefined
+    onSubmit(payload);
     onClose();
   };
 
@@ -73,6 +75,11 @@ const DishModal: React.FC<DishModalProps> = ({
       setFormData((prev) => ({
         ...prev,
         [name]: value === "" ? undefined : parseFloat(value),
+      }));
+    } else if (name === "restaurantId") {
+      setFormData((prev) => ({
+        ...prev,
+        restaurantId: value === "" ? undefined : value,
       }));
     } else {
       setFormData((prev) => ({
@@ -103,17 +110,16 @@ const DishModal: React.FC<DishModalProps> = ({
               <div className="row">
                 <div className="col-md-6 mb-3">
                   <label htmlFor="restaurantId" className="form-label">
-                    Restaurant *
+                    Restaurant (optional)
                   </label>
                   <select
                     className="form-select"
                     id="restaurantId"
                     name="restaurantId"
-                    value={formData.restaurantId}
+                    value={formData.restaurantId || ""}
                     onChange={handleChange}
-                    required
                   >
-                    <option value="">Select a restaurant</option>
+                    <option value="">No specific restaurant</option>
                     {restaurants.map((restaurant) => (
                       <option key={restaurant._id} value={restaurant._id}>
                         {restaurant.name}

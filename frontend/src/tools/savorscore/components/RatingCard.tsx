@@ -5,12 +5,14 @@ interface RatingCardProps {
   rating: DishRating;
   onEdit: (rating: DishRating) => void;
   onDelete: (id: string) => void;
+  onViewDetails?: (id: string) => void; // new optional prop
 }
 
 const RatingCard: React.FC<RatingCardProps> = ({
   rating,
   onEdit,
   onDelete,
+  onViewDetails,
 }) => {
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString("en-US", {
@@ -79,6 +81,16 @@ const RatingCard: React.FC<RatingCardProps> = ({
       </div>
       <div className="card-footer bg-transparent">
         <div className="btn-group w-100" role="group">
+          {onViewDetails && (
+            <button
+              type="button"
+              className="btn btn-outline-primary btn-sm"
+              onClick={() => onViewDetails(rating._id!)}
+            >
+              <i className="bi bi-eye me-1"></i>
+              View
+            </button>
+          )}
           <button
             type="button"
             className="btn btn-outline-secondary btn-sm"

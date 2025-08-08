@@ -23,7 +23,7 @@ export interface RestaurantFormData {
 
 export interface Dish {
   _id?: string;
-  restaurantId: string;
+  restaurantId?: string; // now optional
   name: string;
   description?: string;
   category:
@@ -44,7 +44,7 @@ export interface Dish {
 }
 
 export interface DishFormData {
-  restaurantId: string;
+  restaurantId?: string; // optional in form
   name: string;
   description?: string;
   category:

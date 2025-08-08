@@ -28,6 +28,12 @@ const DishCard: React.FC<DishCardProps> = ({
             {dish.restaurantName}
           </p>
         )}
+        {!dish.restaurantName && (
+          <p className="text-muted small mb-2 savor-dish-restaurant">
+            <i className="bi bi-shop me-1"></i>
+            Independent Dish
+          </p>
+        )}
 
         {dish.description && (
           <p className="card-text small savor-dish-description">

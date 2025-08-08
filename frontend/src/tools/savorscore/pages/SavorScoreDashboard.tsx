@@ -146,6 +146,10 @@ const SavorScoreDashboard: React.FC = () => {
     await deleteRating(id);
   };
 
+  const handleViewRatingDetails = (id: string) => {
+    navigate(`/tools/savorscore/rating/${id}`);
+  };
+
   // Modal handlers
   const handleCloseRestaurantModal = () => {
     setShowRestaurantModal(false);
@@ -405,6 +409,7 @@ const SavorScoreDashboard: React.FC = () => {
                   rating={rating}
                   onEdit={handleEditRating}
                   onDelete={handleDeleteRating}
+                  onViewDetails={handleViewRatingDetails}
                 />
               </div>
             ))

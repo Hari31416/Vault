@@ -73,7 +73,8 @@ const RatingModal: React.FC<RatingModalProps> = ({
       );
       setAvailableDishes(filtered);
     } else {
-      setAvailableDishes([]);
+      // If no restaurant selected show all dishes (decoupled scenario)
+      setAvailableDishes(dishes);
     }
   }, [formData.restaurantId, dishes]);
 
@@ -92,25 +93,13 @@ const RatingModal: React.FC<RatingModalProps> = ({
 
     if (type === "checkbox") {
       const target = e.target as HTMLInputElement;
-      setFormData((prev) => ({
-        ...prev,
-        [name]: target.checked,
-      }));
+      setFormData((prev) => ({ ...prev, [name]: target.checked }));
     } else if (type === "date" || name === "dateVisited") {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: new Date(value),
-      }));
+      setFormData((prev) => ({ ...prev, [name]: new Date(value) }));
     } else if (type === "number" || type === "range") {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: parseInt(value, 10),
-      }));
+      setFormData((prev) => ({ ...prev, [name]: parseInt(value, 10) }));
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
@@ -176,15 +165,24 @@ const RatingModal: React.FC<RatingModalProps> = ({
                     value={formData.dishId}
                     onChange={handleChange}
                     required
-                    disabled={!formData.restaurantId}
+                    disabled={!availableDishes.length}
                   >
-                    <option value="">Select a dish</option>
+                    <option value="">
+                      {availableDishes.length
+                        ? "Select a dish"
+                        : "No dishes available"}
+                    </option>
                     {availableDishes.map((dish) => (
                       <option key={dish._id} value={dish._id}>
                         {dish.name}
                       </option>
                     ))}
                   </select>
+                  {!availableDishes.length && (
+                    <small className="text-muted">
+                      No dishes found for selected restaurant. Create one first.
+                    </small>
+                  )}
                 </div>
               </div>
 

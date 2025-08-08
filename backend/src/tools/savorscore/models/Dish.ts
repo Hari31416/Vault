@@ -10,7 +10,7 @@ const dishSchema = new mongoose.Schema(
     restaurantId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Restaurant",
-      required: true,
+      required: false, // restaurantId now optional to decouple dish from restaurant
     },
     name: {
       type: String,
@@ -55,6 +55,8 @@ const dishSchema = new mongoose.Schema(
 );
 
 // Index for better query performance
+// restaurantId may be null so keep partial filter
+// (Mongo will automatically skip nulls in compound index if not present)
 dishSchema.index({ userId: 1, restaurantId: 1, name: 1 });
 
 export default mongoose.model("Dish", dishSchema);
