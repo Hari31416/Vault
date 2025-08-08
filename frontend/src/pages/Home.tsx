@@ -135,6 +135,29 @@ const Home: React.FC = () => {
                 </div>
               </div>
             </div>
+            <div className="col-md-6 col-lg-4 mb-3">
+              <div
+                className="card h-100 tool-card"
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate("/tools/savorscore")}
+              >
+                <div className="card-body text-center">
+                  <div className="mb-3">
+                    <i className="bi bi-star-fill display-4 text-warning"></i>
+                  </div>
+                  <h5 className="card-title">SavorScore</h5>
+                  <p className="card-text">
+                    Track and rate your dining experiences with detailed scoring
+                    across restaurants and dishes.
+                  </p>
+                  <div className="mt-auto">
+                    <span className="badge bg-warning text-dark">
+                      Food & Dining
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
             {/* Future tools can be added here */}
           </div>
         </section>

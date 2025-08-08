@@ -5,6 +5,7 @@ import connectDB from "./config/database";
 import authRoutes from "./routes/auth";
 import healthRoutes from "./routes/health";
 import connectionsToolRoutes from "./tools/connections/routes";
+import savorscoreToolRoutes from "./tools/savorscore/routes";
 
 // Load environment variables
 dotenv.config();
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/tools/connections", connectionsToolRoutes);
+app.use("/api/tools/savorscore", savorscoreToolRoutes);
 
 // Default route
 app.get("/", (req, res) => {
@@ -49,6 +51,11 @@ app.get("/", (req, res) => {
           connections: "/api/tools/connections/connections",
           companies: "/api/tools/connections/companies",
           positions: "/api/tools/connections/positions",
+        },
+        savorscore: {
+          restaurants: "/api/tools/savorscore/restaurants",
+          dishes: "/api/tools/savorscore/dishes",
+          ratings: "/api/tools/savorscore/ratings",
         },
       },
     },

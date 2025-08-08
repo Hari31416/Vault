@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminPanel from "./pages/AdminPanel";
 import ConnectionsApp from "./tools/connections";
+import SavorScoreApp from "./tools/savorscore";
 import "./App.css";
 
 const App: React.FC = () => {
@@ -50,6 +51,14 @@ const App: React.FC = () => {
                 element={
                   <ProtectedRoute>
                     <ConnectionsApp />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/tools/savorscore/*"
+                element={
+                  <ProtectedRoute>
+                    <SavorScoreApp />
                   </ProtectedRoute>
                 }
               />
