@@ -1,49 +1,58 @@
-# MyTools Frontend
+# Vault Frontend (React + TypeScript)
 
-A React.js frontend application built with TypeScript for the MyTools MERN stack application, featuring theme management, authentication, and a modern UI.
+A React 18 + TypeScript frontend for the Vault MERN multi-tool application, providing authenticated access to modular productivity & tracking tool apps (ConnectVault, TasteVault), theme management, and a responsive UI.
 
 ## Features
 
 - **Modern React with TypeScript**
 
-  - Type-safe development
-  - Functional components with hooks
-  - Context API for state management
+  - Strict type safety
+  - Functional components & hooks
+  - Context API + custom hooks
 
 - **Authentication & User Management**
 
-  - JWT token-based authentication
-  - Protected routes
-  - Role-based access control
-  - User dashboard and admin panel
+  - JWT-based auth flow
+  - Protected & role-gated routes (user / admin)
+  - First registered user becomes admin (server logic)
+
+- **Tool Apps (Modular Mounts)**
+
+  - ConnectVault – connections, companies, positions
+  - TasteVault – restaurants, dishes, ratings & analytics
+  - Clean URL namespacing under `/tools/*`
 
 - **Theme System**
 
-  - Light and dark theme support
-  - Persistent theme selection
-  - CSS custom properties for theming
-  - Smooth theme transitions
+  - Light & dark modes with persistence
+  - CSS custom properties for easy theming
+  - Smooth transitions & accessible contrast
 
 - **Responsive Design**
-  - Mobile-first approach
-  - Modern CSS Grid and Flexbox
-  - Accessible UI components
+
+  - Mobile-first layout
+  - Modern Flexbox & CSS Grid
+  - Accessible components
+
+- **Status & UX**
+  - Backend health status polling
+  - Graceful loading & auth state handling
 
 ## Installation
 
 1. Install dependencies:
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 2. Create a `.env` file with the following variables:
 
-```env
-REACT_APP_API_BASE_URL=http://localhost:5000/api
-```
+   ```env
+   REACT_APP_API_BASE_URL=http://localhost:5000/api
+   ```
 
-3. Make sure the backend server is running on the specified URL.
+3. Make sure the backend server (Vault API) is running at the specified URL.
 
 ## Running the Application
 
@@ -65,30 +74,48 @@ npm run build
 npm test
 ```
 
-The application will start on port 3000.
+The application runs on <http://localhost:3000> by default.
 
-### `npm run build`
+## Tool App Overview
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Tool         | Namespace (Frontend) | API Base               | Summary                                       |
+| ------------ | -------------------- | ---------------------- | --------------------------------------------- |
+| ConnectVault | /tools/connections   | /api/tools/connections | Manage connections, companies, positions      |
+| TasteVault   | /tools/savorscore    | /api/tools/savorscore  | Track restaurants, dishes, ratings, analytics |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Project Structure (Frontend excerpt)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```text
+frontend/
+  src/
+    tools/
+      connections/   # ConnectVault UI
+      savorscore/     # TasteVault UI
+    context/          # Auth, Theme & shared contexts
+    pages/            # Auth, Home, Admin, etc.
+    components/       # Reusable UI
+```
 
-### `npm run eject`
+## Scripts
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+| Script | Description                       |
+| ------ | --------------------------------- |
+| start  | Run dev server (CRA)              |
+| build  | Production bundle                 |
+| test   | Run test suite                    |
+| eject  | Eject CRA configuration (one-way) |
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Notes
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Ensure `REACT_APP_API_BASE_URL` matches backend port (default 5000).
+- First user you register via UI becomes admin automatically.
+- Tokens are stored client-side (consider hardening for production).
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- React Docs: <https://react.dev>
+- Create React App: <https://create-react-app.dev>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
+
+Built with ❤️ as part of the Vault MERN Stack Multi-Tool platform.
