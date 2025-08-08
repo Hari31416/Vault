@@ -58,8 +58,11 @@ const RatingDetail: React.FC = () => {
 
   return (
     <div className="container py-4 rating-detail-view">
-      <button className="btn btn-link" onClick={() => navigate(-1)}>
-        <i className="bi bi-arrow-left"></i> Back
+      <button
+        className="btn btn-outline-secondary btn-sm d-inline-flex align-items-center mb-3"
+        onClick={() => navigate(-1)}
+      >
+        <i className="bi bi-arrow-left me-1"></i> Back
       </button>
       <h2 className="mb-3 d-flex align-items-center gap-3">
         Rating Details

@@ -7,3 +7,18 @@
 main {
   min-height: calc(100vh - 80px);
 }
+
+/* Inline link button styling for SavorScore */
+.savor-inline-link {
+  vertical-align: baseline;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.savor-inline-link:hover,
+.savor-inline-link:focus {
+  background-color: var(--bs-info-bg-subtle, rgba(13,202,240,.15));
+  color: var(--bs-info-text, #0dcaf0);
+  text-decoration: none;
+}
+:root[data-theme='dark'] .savor-inline-link:hover {
+  background-color: rgba(13,202,240,.2);
+}

@@ -48,8 +48,11 @@ const AnalyticsPage: React.FC = () => {
   }
 
   return (
-    <div className="container py-4">
-      <button className="btn btn-link" onClick={() => navigate(-1)}>
+    <div className="container py-4 gap-2">
+      <button
+        className="btn btn-outline-secondary btn-sm d-inline-flex align-items-center"
+        onClick={() => navigate(-1)}
+      >
         <i className="bi bi-arrow-left"></i> Back
       </button>
       <h2 className="mb-4">Analytics</h2>
