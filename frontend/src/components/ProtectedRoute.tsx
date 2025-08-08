@@ -33,7 +33,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   if (adminOnly && user.role !== "admin") {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/" replace />; // redirect to home if not admin
   }
 
   return <>{children}</>;

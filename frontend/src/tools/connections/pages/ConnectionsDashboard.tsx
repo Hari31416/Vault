@@ -252,7 +252,7 @@ const ConnectionsDashboard: React.FC = () => {
       <div className="row mb-4">
         <div className="col-12">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h1>Connections Tracker</h1>
+            <h1>ConnectVault</h1>
             <button
               className="btn btn-primary"
               onClick={() => navigate("/tools/connections/positions")}

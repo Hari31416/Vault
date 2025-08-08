@@ -113,7 +113,7 @@ const HomeRedirect: React.FC<HomeRedirectProps> = ({ children }) => {
 
         <div className="home-container">
           <header className="home-header">
-            <h1>Welcome to MyTools</h1>
+            <h1>Welcome to Vault</h1>
             <p>Your personal collection of useful web tools and utilities</p>
           </header>
 
@@ -177,10 +177,9 @@ const HomeRedirect: React.FC<HomeRedirectProps> = ({ children }) => {
                 margin: "0 auto 2rem",
               }}
             >
-              No users have been created yet. To get started with MyTools,
-              you'll need to create the first admin account. This admin account
-              will have full access to manage the system and create additional
-              users.
+              No users have been created yet. To get started with Vault, you'll
+              need to create the first admin account. This admin account will
+              have full access to manage the system and create additional users.
             </p>
             <Link
               to="/register"

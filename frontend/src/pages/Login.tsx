@@ -62,12 +62,8 @@ const Login: React.FC = () => {
         // Call the login function to update context
         await login(email, password);
 
-        // Redirect based on user role from the response
-        if (data.data?.user?.role === "admin") {
-          navigate("/admin");
-        } else {
-          navigate("/");
-        }
+        // Redirect to home regardless of role
+        navigate("/");
       } else {
         setError(data.message);
       }

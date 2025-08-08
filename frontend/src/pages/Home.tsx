@@ -31,6 +31,7 @@ const Home: React.FC = () => {
           return true;
         }
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error("Failed to fetch health status:", error);
       }
       return false;
@@ -38,15 +39,9 @@ const Home: React.FC = () => {
 
     const retryHealthCheck = async () => {
       const success = await fetchHealthStatus();
-
-      if (success) {
-        return; // Connected successfully, stop retrying
-      }
-
+      if (success) return;
       const elapsed = Date.now() - startTime;
-
       if (elapsed >= maxWaitTime) {
-        // After 1 minute, stop trying and show connection failed
         setLoading(false);
         setConnectionFailed(true);
         setHealthStatus({
@@ -55,7 +50,6 @@ const Home: React.FC = () => {
           message: "Failed to connect to server after 1 minute",
         });
       } else {
-        // Continue retrying every 3 seconds
         setTimeout(retryHealthCheck, retryInterval);
       }
     };
@@ -63,147 +57,123 @@ const Home: React.FC = () => {
     retryHealthCheck();
   }, []);
 
+  const Banner = () => {
+    if (loading) {
+      return (
+        <div
+          className="banner banner--loading"
+          role="status"
+          aria-live="polite"
+        >
+          <div className="spinner" aria-hidden="true" />
+          <span>Connecting to server...</span>
+        </div>
+      );
+    }
+    if (connectionFailed) {
+      return (
+        <div className="banner banner--error" role="alert">
+          <div className="status-dot" aria-hidden="true" />
+          <span>Server connection failed after 1 minute</span>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="home">
-      <div className="home-container">
-        {loading && (
-          <section
-            className="connection-banner"
-            style={{
-              position: "sticky",
-              top: 0,
-              backgroundColor: "var(--background-color)",
-              borderBottom: "1px solid var(--border-color)",
-              padding: "1rem",
-              marginBottom: "1rem",
-              zIndex: 100,
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "0.5rem",
-                color: "var(--text-secondary)",
-              }}
+      <Banner />
+      <div className="hero">
+        <div className="hero-overlay" />
+        <div className="hero-content">
+          <h1 className="gradient-text">Vault</h1>
+          <p className="tagline">
+            A growing collection of personal productivity & tracking utilities.
+          </p>
+          <div className="hero-actions">
+            <button
+              className="btn primary"
+              onClick={() => navigate("/tools/connections")}
             >
-              <div
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  border: "2px solid var(--primary-color)",
-                  borderTop: "2px solid transparent",
-                  borderRadius: "50%",
-                  animation: "spin 1s linear infinite",
-                }}
-              ></div>
-              <span>Connecting to server...</span>
-            </div>
-          </section>
-        )}
+              Open ConnectVault
+            </button>
+            <button
+              className="btn outline"
+              onClick={() => navigate("/tools/savorscore")}
+            >
+              Explore TasteVault
+            </button>
+          </div>
+        </div>
+      </div>
 
-        <header className="home-header">
-          <h1>Welcome to MyTools</h1>
-          <p>Your personal collection of useful web tools and utilities</p>
-        </header>
+      <div className="home-container">
+        <section className="tools-grid" aria-labelledby="available-tools-title">
+          <div className="section-header">
+            <h2 id="available-tools-title">Available Apps</h2>
+            <p className="section-subtitle">Choose an app to get started</p>
+          </div>
+          <div className="tools-container">
+            <article
+              className="tool-card"
+              tabIndex={0}
+              role="button"
+              aria-label="Open ConnectVault"
+              onClick={() => navigate("/tools/connections")}
+              onKeyDown={(e) =>
+                e.key === "Enter" && navigate("/tools/connections")
+              }
+            >
+              <div className="tool-icon-wrapper">
+                <i
+                  className="bi bi-people tool-icon text-primary"
+                  aria-hidden="true"
+                />
+              </div>
+              <h3>ConnectVault</h3>
+              <p>
+                Manage professional & personal connections, companies &
+                positions with ease.
+              </p>
+              <div className="tool-metadata">
+                <span className="badge category networking">Networking</span>
+              </div>
+            </article>
 
-        {/* Available Tools Section */}
-        <section className="available-tools" style={{ margin: "2rem 0" }}>
-          <h2>Available Tools</h2>
-          <div className="row">
-            <div className="col-md-6 col-lg-4 mb-3">
-              <div
-                className="card h-100 tool-card"
-                style={{ cursor: "pointer" }}
-                onClick={() => navigate("/tools/connections")}
-              >
-                <div className="card-body text-center">
-                  <div className="mb-3">
-                    <i className="bi bi-people display-4 text-primary"></i>
-                  </div>
-                  <h5 className="card-title">Connections Tracker</h5>
-                  <p className="card-text">
-                    Manage your professional and personal connections,
-                    companies, and employment positions.
-                  </p>
-                  <div className="mt-auto">
-                    <span className="badge bg-primary">
-                      Professional Networking
-                    </span>
-                  </div>
-                </div>
+            <article
+              className="tool-card"
+              tabIndex={0}
+              role="button"
+              aria-label="Open TasteVault"
+              onClick={() => navigate("/tools/savorscore")}
+              onKeyDown={(e) =>
+                e.key === "Enter" && navigate("/tools/savorscore")
+              }
+            >
+              <div className="tool-icon-wrapper">
+                <i
+                  className="bi bi-star-fill tool-icon text-warning"
+                  aria-hidden="true"
+                />
               </div>
-            </div>
-            <div className="col-md-6 col-lg-4 mb-3">
-              <div
-                className="card h-100 tool-card"
-                style={{ cursor: "pointer" }}
-                onClick={() => navigate("/tools/savorscore")}
-              >
-                <div className="card-body text-center">
-                  <div className="mb-3">
-                    <i className="bi bi-star-fill display-4 text-warning"></i>
-                  </div>
-                  <h5 className="card-title">SavorScore</h5>
-                  <p className="card-text">
-                    Track and rate your dining experiences with detailed scoring
-                    across restaurants and dishes.
-                  </p>
-                  <div className="mt-auto">
-                    <span className="badge bg-warning text-dark">
-                      Food & Dining
-                    </span>
-                  </div>
-                </div>
+              <h3>TasteVault</h3>
+              <p>
+                Track & rate dining experiences across restaurants and dishes
+                with detailed scoring.
+              </p>
+              <div className="tool-metadata">
+                <span className="badge category dining">Food & Dining</span>
               </div>
-            </div>
-            {/* Future tools can be added here */}
+            </article>
+            {/* Future tool cards can be added here */}
           </div>
         </section>
-
-        {!loading && connectionFailed && (
-          <section
-            className="connection-error"
-            style={{
-              textAlign: "center",
-              padding: "1rem",
-              margin: "1rem 0",
-              backgroundColor: "var(--danger-bg)",
-              border: "1px solid var(--danger-border)",
-              borderRadius: "8px",
-              color: "var(--danger-color)",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "0.5rem",
-              }}
-            >
-              <div
-                style={{
-                  width: "12px",
-                  height: "12px",
-                  backgroundColor: "var(--danger-color)",
-                  borderRadius: "50%",
-                }}
-              ></div>
-              <span>
-                Server connection failed - Unable to connect after 1 minute
-              </span>
-            </div>
-          </section>
-        )}
       </div>
 
       <style>{`
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
+        /* inline fallback animations remain */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
       `}</style>
     </div>
   );

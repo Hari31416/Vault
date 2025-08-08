@@ -7,7 +7,7 @@ import DishDetail from "./pages/DishDetail";
 import RatingDetail from "./pages/RatingDetail";
 import AnalyticsPage from "./pages/AnalyticsPage";
 
-const SavorScoreApp: React.FC = () => {
+const TasteVaultApp: React.FC = () => {
   return (
     <SavorScoreProvider>
       <Routes>
@@ -21,4 +21,4 @@ const SavorScoreApp: React.FC = () => {
   );
 };
 
-export default SavorScoreApp;
+export default TasteVaultApp;

@@ -16,26 +16,35 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-const STORAGE_KEY = "mytools-theme";
+const STORAGE_KEY = "vault-theme";
+const LEGACY_KEYS = ["mytools-theme"]; // migrate from these if present
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [theme, setTheme] = useState<Theme>("light");
-
-  // Initialize from localStorage or system preference
-  useEffect(() => {
+const getInitialTheme = (): Theme => {
+  try {
     const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
-    if (stored === "light" || stored === "dark") {
-      setTheme(stored);
-      return;
+    if (stored === "light" || stored === "dark") return stored;
+    for (const k of LEGACY_KEYS) {
+      const legacy = localStorage.getItem(k) as Theme | null;
+      if (legacy === "light" || legacy === "dark") {
+        localStorage.setItem(STORAGE_KEY, legacy);
+        return legacy;
+      }
     }
     const prefersDark =
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches;
-    setTheme(prefersDark ? "dark" : "light");
-  }, []);
+    return prefersDark ? "dark" : "light";
+  } catch {
+    return "light";
+  }
+};
 
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+
+  // Remove old initialization effect; state already initialized
   // Persist & apply attribute
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
