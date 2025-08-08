@@ -1,33 +1,80 @@
-# MyTools - MERN Stack Multi-Tool Application
+# Vault - MERN Stack Multi-Tool Application
 
-A full-stack web application built with the MERN stack (MongoDB, Express.js, React, Node.js) that provides a collection of useful tools and utilities with user authentication and theme management.
+A full-stack web application built with the MERN stack (MongoDB, Express.js, React, Node.js) that provides a collection of personal productivity & tracking utilities with user authentication, role-based access, and theme management.
 
 ## 🚀 Features
 
-### Backend (Node.js + Express + MongoDB)
+### Backend (Node.js + Express + MongoDB + TypeScript)
 
+- **TypeScript Codebase**: Strong typing for safer backend development
 - **JWT Authentication**: Secure user registration and login
 - **Role-based Access Control**: User and admin roles
 - **Auto Admin Assignment**: First registered user becomes admin
-- **Health Monitoring**: System health checks and detailed status
+- **Health Monitoring**: Basic & detailed system health endpoints with retry-aware frontend handling
 - **User Management**: Admin can create users with role assignment
+- **Extensible Tool Architecture**: Namespaced tools mounted under `/api/tools/*`
 - **Security**: Password hashing, input validation, CORS protection
 
 ### Frontend (React + TypeScript)
 
-- **Modern React**: Built with TypeScript for type safety
+- **Modern React 18** with TypeScript
 - **Theme System**: Light/dark mode with persistent selection
 - **Responsive Design**: Mobile-first, accessible UI
 - **Protected Routes**: Route-level authentication and authorization
-- **Context API**: Global state management for auth and themes
-- **Real-time Status**: Backend health monitoring display
+- **Context API**: Global state management for auth, theming & per-tool state
+- **Real-time Status**: Backend health monitoring display with retry logic
+- **Modular Tool Apps**: Independent mini-apps (ConnectVault, TasteVault) under `/tools/*`
+
+### Implemented Tool Apps
+
+#### 1. ConnectVault (Connections Management)
+
+Manage professional & personal network data.
+
+- Connections with contact info, social links & notes
+- Companies with metadata
+- Positions associated with either a connection or a company
+- Full CRUD with search endpoints
+- Text indexes for searching across multiple fields
+- Auth-protected routes per user
+
+API Base: `/api/tools/connections`
+
+- `GET /connections` – List connections
+- `GET /connections/search?q=` – Search connections (text index)
+- `GET /connections/:id` – Get single connection
+- `POST /connections` – Create connection
+- `PUT /connections/:id` – Update connection
+- `DELETE /connections/:id` – Delete connection
+- `GET /companies` / `GET /companies/search` / CRUD on companies
+- `GET /positions` – List positions
+- `GET /positions/connection/:connectionId` – Positions for a connection
+- `GET /positions/company/:companyId` – Positions for a company
+- CRUD routes for positions
+
+#### 2. TasteVault (SavorScore) – Restaurant & Dining Ratings
+
+Track restaurants, dishes & ratings with analytics.
+
+API Base: `/api/tools/savorscore`
+
+- `GET /restaurants` / `GET /restaurants/search` / CRUD
+- `GET /dishes` / `GET /dishes/search` / CRUD
+- `GET /dishes/restaurant/:restaurantId` – Dishes at a restaurant
+- `GET /ratings` – List ratings
+- `GET /ratings/analytics` – Aggregated analytics (averages, counts, etc.)
+- `GET /ratings/restaurant/:restaurantId` – Ratings for a restaurant
+- `GET /ratings/dish/:dishId` – Ratings for a dish
+- CRUD routes for ratings
+
+(All tool routes require authentication.)
 
 ## 🛠️ Tech Stack
 
 **Backend:**
 
-- Node.js
-- Express.js
+- Node.js + Express
+- TypeScript
 - MongoDB with Mongoose
 - JWT for authentication
 - bcryptjs for password hashing
@@ -35,19 +82,19 @@ A full-stack web application built with the MERN stack (MongoDB, Express.js, Rea
 
 **Frontend:**
 
-- React 18 with TypeScript
-- React Router for navigation
-- Axios for API calls
+- React 18 + TypeScript
+- React Router
+- Axios
+- Context API / custom hooks
 - CSS custom properties for theming
-- Context API for state management
 
 ## 📦 Installation & Setup
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- MongoDB (local installation or MongoDB Atlas)
-- npm or yarn package manager
+- Node.js (v18 or higher recommended)
+- MongoDB (local or Atlas)
+- npm or yarn
 
 ### Backend Setup
 
@@ -70,16 +117,17 @@ MONGODB_URI=mongodb://localhost:27017/my-tools
 JWT_SECRET=your_jwt_secret_key_here_make_it_very_secure
 PORT=5000
 NODE_ENV=development
+FRONTEND_URL=http://localhost:3000
 ```
 
 4. Start the backend server:
 
 ```bash
-# Development mode with auto-restart
+# Development mode (ts-node-dev / nodemon)
 npm run dev
 
-# Production mode
-npm start
+# Production build then run
+npm run build && npm start
 ```
 
 ### Frontend Setup
@@ -102,158 +150,170 @@ npm install
 REACT_APP_API_BASE_URL=http://localhost:5000/api
 ```
 
-4. Start the frontend application:
+4. Start the frontend:
 
 ```bash
 npm start
 ```
 
-## 🔧 Usage
+## 🔧 Usage Workflow
 
-1. **Start MongoDB**: Ensure MongoDB is running locally or update the connection string for MongoDB Atlas
+1. Start MongoDB (local daemon or Atlas connection)
+2. Start Backend: `cd backend && npm run dev`
+3. Start Frontend: `cd frontend && npm start`
+4. Access: http://localhost:3000
+5. Register first user (auto-admin)
+6. Begin using tool apps via the homepage buttons
 
-2. **Start Backend**: Run the backend server first
+## 📱 Application Areas
 
-   ```bash
-   cd backend && npm run dev
-   ```
+### Homepage
 
-3. **Start Frontend**: In a new terminal, start the React app
+- Tool launcher cards (ConnectVault, TasteVault)
+- Dynamic health status banner with retry feedback
 
-   ```bash
-   cd frontend && npm start
-   ```
+### Authentication
 
-4. **Access the Application**: Open [http://localhost:3000](http://localhost:3000)
+- Registration & login
+- JWT bearer token persisted client-side
+- First user promoted to admin automatically
 
-5. **First User Setup**: Register the first user - they will automatically become an admin
+### Admin Panel
 
-## 📱 Application Features
+- Create additional users (assign role)
+- Monitor system health
 
-### 🏠 Homepage
+### ConnectVault
 
-- Overview of available tools
-- System health status display
-- Responsive tool grid layout
+- CRUD for connections, companies, positions
+- Search across text fields
+- Relationship views (positions per connection/company)
 
-### 🔐 Authentication
+### TasteVault
 
-- User registration and login
-- JWT token-based sessions
-- Password validation and security
+- CRUD for restaurants, dishes, ratings
+- Analytics endpoint for summary insights
+- Price range & cuisine tagging
 
-### 👤 User Dashboard
+### Theming
 
-- Personal account overview
-- Quick access to tools
-- Account statistics
+- Light/dark with persistent storage
+- Accessible contrast & smooth transitions
 
-### ⚙️ Admin Panel
-
-- Create new users with role assignment
-- System monitoring and health checks
-- User management capabilities
-
-### 🎨 Theming
-
-- Light and dark mode support
-- Persistent theme selection
-- Smooth transition animations
-
-## 📁 Project Structure
+## 📁 Project Structure (Simplified)
 
 ```
 my-tools/
 ├── backend/
-│   ├── config/
-│   │   └── database.js
-│   ├── controllers/
-│   │   ├── authController.js
-│   │   └── healthController.js
-│   ├── middleware/
-│   │   └── authMiddleware.js
-│   ├── models/
-│   │   └── User.js
-│   ├── routes/
-│   │   ├── auth.js
-│   │   └── health.js
-│   ├── .env
+│   ├── src/
+│   │   ├── server.ts
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   └── tools/
+│   │       ├── connections/
+│   │       └── savorscore/
 │   ├── package.json
-│   └── server.js
+│   └── tsconfig.json
 ├── frontend/
 │   ├── src/
-│   │   ├── components/
-│   │   ├── context/
+│   │   ├── tools/
+│   │   │   ├── connections/
+│   │   │   └── savorscore/
 │   │   ├── pages/
-│   │   ├── App.tsx
-│   │   └── index.tsx
-│   ├── .env
-│   └── package.json
-├── overview.md
+│   │   ├── context/
+│   │   └── components/
+│   ├── package.json
+│   └── tsconfig.json
 └── README.md
 ```
 
-## 🔗 API Endpoints
+## 🔗 Core API Endpoints
 
-### Health Check
+### Health
 
-- `GET /api/health` - Basic server status
-- `GET /api/health/detailed` - Detailed system information
+- `GET /api/health` – Basic status
+- `GET /api/health/detailed` – Extended system info
 
 ### Authentication
 
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `GET /api/auth/me` - Get current user (protected)
-- `POST /api/auth/create-user` - Create user (admin only)
+- `POST /api/auth/register` – Register (auto-admin if first)
+- `POST /api/auth/login` – Login
+- `GET /api/auth/me` – Current user (auth)
+- `GET /api/auth/users-exist` – Check if any users exist
+- `POST /api/auth/create-user` – Admin create user
+
+### Tools Overview
+
+- `GET /` (root) – Returns JSON listing tool namespaces & endpoints
+
+### ConnectVault (all require auth & start with `/api/tools/connections`)
+
+See section above for detailed list.
+
+### TasteVault (all require auth & start with `/api/tools/savorscore`)
+
+See section above for detailed list.
 
 ## 🚦 Development Workflow
 
-1. **Backend Development**: Start with API endpoints and database models
-2. **Frontend Integration**: Build React components and connect to APIs
-3. **Authentication Flow**: Implement login/register with JWT
-4. **Protected Routes**: Add route guards and role-based access
-5. **Theme System**: Implement light/dark mode switching
-6. **Testing**: Test all features and API endpoints
+1. Add / adjust data models (TypeScript interfaces + Mongoose schemas)
+2. Implement controllers & routes (namespaced under tools)
+3. Extend frontend tool app with context, pages & services
+4. Maintain auth & role checks in middleware
+5. Add tests / manual verification (API + UI)
+6. Optimize & refactor shared utilities
 
-## 🔒 Security Features
+## 🔒 Security Practices
 
-- Password hashing with bcryptjs (salt rounds: 12)
-- JWT token expiration (7 days)
-- Input validation and sanitization
-- CORS configuration for cross-origin requests
-- Environment variables for sensitive data
-- Protected routes with authentication middleware
+- Bcrypt password hashing (12 salt rounds default)
+- JWT expiration (7 days)
+- Route-level auth & admin middleware
+- Input validation (server-side) & sanitization patterns
+- CORS restricted to configured FRONTEND_URL
+- Environment variables for secrets & config
 
-## 🎯 Future Enhancements
+## 📊 Data & Indexing
 
-- **Tools Implementation**: Add actual utility tools (calculator, text tools, etc.)
-- **User Profiles**: Extended user profile management
-- **Tool Favorites**: Save and organize favorite tools
-- **Usage Analytics**: Track tool usage and statistics
-- **Email Verification**: Add email verification for registration
-- **Password Reset**: Implement forgot password functionality
-- **File Upload**: Add file handling capabilities
-- **API Rate Limiting**: Implement request rate limiting
-- **Logging System**: Add comprehensive logging
-- **Docker Support**: Containerize the application
+- Text indexes for connection search fields
+- Compound indexes for performance (e.g., Restaurant: userId+name)
+- Future: add indexes for analytics-heavy queries
+
+## 🎯 Planned Enhancements
+
+- Additional utility tool apps (productivity, finance, etc.)
+- Favorites / quick launch
+- Advanced analytics dashboards
+- Email verification & password reset flows
+- File & image upload support
+- Rate limiting & improved logging
+- Docker & CI pipeline
+- Comprehensive test coverage
+
+## 🧪 Testing (Suggested)
+
+- API integration tests (Jest / Supertest)
+- Component & hook tests (React Testing Library)
+- E2E workflow tests (Playwright / Cypress)
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
+Open source under the MIT License.
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
+1. Fork repository
+2. Create feature branch
+3. Commit changes with clear messages
 4. Test thoroughly
-5. Submit a pull request
+5. Open PR describing changes
 
 ## 🐛 Issues & Support
 
-If you encounter any issues or have questions, please [create an issue](https://github.com/yourusername/my-tools/issues) on GitHub.
+Open an issue on GitHub with reproduction steps.
 
 ---
 
-**Built with ❤️ using the MERN stack**
+Built with ❤️ using the MERN + TypeScript stack
