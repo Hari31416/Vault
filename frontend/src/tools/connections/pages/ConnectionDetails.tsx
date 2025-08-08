@@ -146,7 +146,7 @@ const ConnectionDetails: React.FC = () => {
               {connection.notes && (
                 <div className="mt-4">
                   <strong>Notes:</strong>
-                  <div className="mt-2 p-3 bg-light rounded">
+                  <div className="mt-2 p-3 rounded connection-notes-box">
                     {connection.notes}
                   </div>
                 </div>
@@ -192,7 +192,7 @@ const ConnectionDetails: React.FC = () => {
                               <h6 className="mb-1">{position.title}</h6>
                               <p className="mb-1">
                                 <button
-                                  className="btn btn-link p-0 text-start text-decoration-none"
+                                  className="btn btn-link p-0 text-start text-decoration-none force-brand-link"
                                   onClick={() =>
                                     navigate(
                                       `/tools/connections/company/${position.companyId}`
@@ -200,7 +200,6 @@ const ConnectionDetails: React.FC = () => {
                                   }
                                   style={{
                                     fontSize: "inherit",
-                                    color: "#0d6efd",
                                     fontWeight: "500",
                                   }}
                                 >

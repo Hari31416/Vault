@@ -20,7 +20,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
     <div className="card h-100">
       <div className="card-body">
         <div className="d-flex justify-content-between align-items-start mb-2">
-          <h6 className="card-title mb-0">{restaurant.name}</h6>
+          <h6 className="card-title mb-0 savor-title">{restaurant.name}</h6>
           <span className="badge bg-success">{priceRangeDisplay}</span>
         </div>
 
@@ -28,13 +28,13 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
           {restaurant.cuisine && (
             <div className="mb-1">
               <i className="bi bi-bookmark-fill me-2 text-primary"></i>
-              <span className="small">{restaurant.cuisine}</span>
+              <span className="small savor-cuisine">{restaurant.cuisine}</span>
             </div>
           )}
           {restaurant.address && (
             <div className="mb-1">
               <i className="bi bi-geo-alt me-2 text-muted"></i>
-              <span className="small">{restaurant.address}</span>
+              <span className="small savor-address">{restaurant.address}</span>
             </div>
           )}
           {restaurant.phone && (
@@ -42,7 +42,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
               <i className="bi bi-telephone me-2 text-muted"></i>
               <a
                 href={`tel:${restaurant.phone}`}
-                className="text-decoration-none small"
+                className="text-decoration-none small savor-phone"
               >
                 {restaurant.phone}
               </a>
@@ -55,7 +55,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
                 href={restaurant.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-decoration-none small"
+                className="text-decoration-none small savor-website"
               >
                 Visit Website
               </a>

@@ -79,21 +79,27 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
                 <i className="bi bi-people"></i>
               </div>
               <small className="text-muted">Connections</small>
-              <div className="fw-bold">{connections.length}</div>
+              <div className="fw-bold company-stats-number">
+                {connections.length}
+              </div>
             </div>
             <div className="col-4">
               <div className="text-success">
                 <i className="bi bi-briefcase-fill"></i>
               </div>
               <small className="text-muted">Current</small>
-              <div className="fw-bold">{currentPositions.length}</div>
+              <div className="fw-bold company-stats-number">
+                {currentPositions.length}
+              </div>
             </div>
             <div className="col-4">
               <div className="text-secondary">
                 <i className="bi bi-briefcase"></i>
               </div>
               <small className="text-muted">Past</small>
-              <div className="fw-bold">{pastPositions.length}</div>
+              <div className="fw-bold company-stats-number">
+                {pastPositions.length}
+              </div>
             </div>
           </div>
         </div>
@@ -112,7 +118,9 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
                     className="bi bi-person-circle me-2 text-muted"
                     style={{ fontSize: "0.8rem" }}
                   ></i>
-                  <span className="text-truncate small">{connection.name}</span>
+                  <span className="text-truncate small company-recent-connection">
+                    {connection.name}
+                  </span>
                 </div>
               ))}
               {connections.length > 3 && (

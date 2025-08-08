@@ -34,7 +34,7 @@ const RatingCard: React.FC<RatingCardProps> = ({
           <span
             className={`badge ${getScoreColor(
               rating.averageScore
-            )} bg-light border`}
+            )} rating-score-badge`}
           >
             <strong>{rating.averageScore.toFixed(1)}/5</strong>
           </span>

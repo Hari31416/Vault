@@ -127,7 +127,7 @@ const CompanyDetails: React.FC = () => {
                 </p>
               ) : (
                 <div className="table-responsive">
-                  <table className="table table-hover">
+                  <table className="table table-hover mb-0 themed-table">
                     <thead>
                       <tr>
                         <th>Person</th>
@@ -158,15 +158,15 @@ const CompanyDetails: React.FC = () => {
                             <tr key={position._id}>
                               <td>
                                 <button
-                                  className="btn btn-link p-0 text-start text-decoration-none"
+                                  className="btn btn-link p-0 text-start text-decoration-none force-brand-link fw-semibold"
                                   onClick={() =>
                                     navigate(
                                       `/tools/connections/connection/${position.connectionId}`
                                     )
                                   }
                                   style={{
-                                    color: "#0d6efd",
-                                    fontWeight: "500",
+                                    // removed hardcoded color to allow theming
+                                    fontWeight: 500,
                                   }}
                                 >
                                   <i className="bi bi-person me-1"></i>
@@ -249,8 +249,8 @@ const CompanyDetails: React.FC = () => {
                         <div className="d-flex justify-content-between align-items-center">
                           <div>
                             <h6
-                              className="mb-1"
-                              style={{ color: "#0d6efd", fontWeight: "500" }}
+                              className="mb-1 force-brand-link"
+                              style={{ fontWeight: "500" }}
                             >
                               <i className="bi bi-person me-1"></i>
                               {connection!.name}
