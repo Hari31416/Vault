@@ -7,9 +7,9 @@ import {
   DishRatingFormData,
   Analytics,
 } from "../types";
+import { API_BASE_URL } from "../../../config/api";
 
-const BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
-const API_BASE = `${BASE_URL}/tools/savorscore`;
+const API_BASE = `${API_BASE_URL}/tools/savorscore`;
 
 // Get auth token from localStorage
 const getAuthToken = () => {

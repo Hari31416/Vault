@@ -1,8 +1,8 @@
 import axios from "axios";
 import { SimilarWordSet, ImportResult } from "../types";
+import { API_BASE_URL } from "../../../config/api";
 
-const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5000/api";
-const NV_API_BASE = `${API_BASE}/tools/nuancevault`;
+const NV_API_BASE = `${API_BASE_URL}/tools/nuancevault`;
 
 // Auth headers (all routes protected currently)
 const getAuthHeaders = () => {

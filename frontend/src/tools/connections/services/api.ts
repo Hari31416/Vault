@@ -1,8 +1,8 @@
 import axios from "axios";
-import { Connection, Company, Position, ApiResponse } from "../types";
+import { Connection, Company, Position } from "../types";
+import { API_BASE_URL } from "../../../config/api";
 
-const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5000/api";
-const CONNECTIONS_API_BASE = `${API_BASE}/tools/connections`;
+const CONNECTIONS_API_BASE = `${API_BASE_URL}/tools/connections`;
 
 // Helper function to get auth headers
 const getAuthHeaders = () => {

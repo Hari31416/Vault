@@ -1,20 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
+import { apiPath } from "../config/api";
 import "./AdminPanel.css";
 
 const AdminPanel: React.FC = () => {
-  const { createUserByAdmin } = useAuth();
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    role: "user",
-  });
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"success" | "error">(
-    "success"
-  );
+  // User creation logic removed (was unused). If reintroduced, re-add state & handlers.
   const [healthData, setHealthData] = useState<any>(null);
   const [healthLoading, setHealthLoading] = useState(true);
 
@@ -27,7 +16,7 @@ const AdminPanel: React.FC = () => {
       setHealthLoading(true);
       console.log("Fetching health data...");
 
-      const healthResponse = await fetch("/health/detailed");
+      const healthResponse = await fetch(apiPath("/health/detailed"));
       console.log("Health response status:", healthResponse.status);
 
       if (!healthResponse.ok) {
@@ -47,50 +36,7 @@ const AdminPanel: React.FC = () => {
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
-
-    if (formData.password.length < 6) {
-      setMessage("Password must be at least 6 characters long");
-      setMessageType("error");
-      setLoading(false);
-      return;
-    }
-
-    const result = await createUserByAdmin(
-      formData.username,
-      formData.email,
-      formData.password,
-      formData.role
-    );
-
-    setMessage(result.message);
-    setMessageType(result.success ? "success" : "error");
-
-    if (result.success) {
-      setFormData({
-        username: "",
-        email: "",
-        password: "",
-        role: "user",
-      });
-      // Refresh health data after successful user creation
-      fetchHealthData();
-    }
-
-    setLoading(false);
-  };
+  // Removed unused handleInputChange and handleSubmit.
 
   return (
     <div className="admin-panel">

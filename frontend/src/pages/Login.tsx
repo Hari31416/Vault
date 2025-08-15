@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Auth.css";
+import { apiPath } from "../config/api";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -9,7 +10,7 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const { login, hasAnyUsers, user } = useAuth();
+  const { login, hasAnyUsers } = useAuth();
   const navigate = useNavigate();
 
   // Show different content if no users exist instead of redirecting
@@ -48,7 +49,8 @@ const Login: React.FC = () => {
 
     try {
       // Make the API call directly to get user data
-      const response = await fetch("/auth/login", {
+      // Use correct backend API prefix (/api) for auth route
+      const response = await fetch(apiPath("/auth/login"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -6,6 +6,7 @@ import React, {
   ReactNode,
 } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../config/api";
 
 interface User {
   id: string;
@@ -40,10 +41,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
-
-// Configure axios defaults
+// Configure axios defaults using centralized API config
 axios.defaults.baseURL = API_BASE_URL;
 
 interface AuthProviderProps {
