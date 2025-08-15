@@ -8,8 +8,8 @@ import {
   Analytics,
 } from "../types";
 
-const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
-const API_BASE = `${BASE_URL}/api/tools/savorscore`;
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+const API_BASE = `${BASE_URL}/tools/savorscore`;
 
 // Get auth token from localStorage
 const getAuthToken = () => {

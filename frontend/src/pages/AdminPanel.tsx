@@ -27,7 +27,7 @@ const AdminPanel: React.FC = () => {
       setHealthLoading(true);
       console.log("Fetching health data...");
 
-      const healthResponse = await fetch("/api/health/detailed");
+      const healthResponse = await fetch("/health/detailed");
       console.log("Health response status:", healthResponse.status);
 
       if (!healthResponse.ok) {

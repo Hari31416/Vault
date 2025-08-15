@@ -48,7 +48,7 @@ const Login: React.FC = () => {
 
     try {
       // Make the API call directly to get user data
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
