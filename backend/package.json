@@ -2,10 +2,10 @@
     "name": "my-tools-backend",
     "version": "1.0.0",
     "description": "Backend for MERN stack multi-tool application",
-    "main": "src/server.js",
+    "main": "src/server.ts",
     "scripts": {
         "build": "tsc",
-        "start": "node src/server.js",
+        "start": "node src/server.ts",
         "dev": "nodemon --exec ts-node src/server.ts",
         "dev:watch": "nodemon --exec ts-node src/server.ts --watch src",
         "clean": "rm -rf src"
