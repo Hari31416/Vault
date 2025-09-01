@@ -99,13 +99,13 @@ const Home: React.FC = () => {
               Open ConnectVault
             </button>
             <button
-              className="btn outline"
+              className="btn primary"
               onClick={() => navigate("/tools/savorscore")}
             >
               Explore TasteVault
             </button>
             <button
-              className="btn outline"
+              className="btn primary"
               onClick={() => navigate("/tools/nuance")}
             >
               Try NuanceVault

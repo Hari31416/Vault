@@ -50,10 +50,14 @@ const Navbar: React.FC = () => {
                 {user.role === "admin" && (
                   <>
                     <Link to="/admin" className="navbar-link">
-                      Admin Panel
+                      <span className="navbar-link-short">Admin</span>
+                      <span className="navbar-link-full">Admin Panel</span>
                     </Link>
                     <Link to="/register" className="navbar-link">
-                      Register New User
+                      <span className="navbar-link-short">Register</span>
+                      <span className="navbar-link-full">
+                        Register New User
+                      </span>
                     </Link>
                   </>
                 )}
