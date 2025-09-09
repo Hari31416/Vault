@@ -67,7 +67,7 @@ const DishCard: React.FC<DishCardProps> = ({
 
         {dish.price && (
           <div className="mb-2">
-            <span className="badge bg-success">${dish.price.toFixed(2)}</span>
+            <span className="badge bg-success">₹{dish.price.toFixed(2)}</span>
           </div>
         )}
       </div>

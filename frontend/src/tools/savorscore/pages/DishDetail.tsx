@@ -118,7 +118,7 @@ const DishDetail: React.FC = () => {
               <div className="small text-uppercase">Price</div>
               <div className="fw-semibold" style={{ fontSize: "1.6rem" }}>
                 {typeof dish.price === "number"
-                  ? `$${dish.price.toFixed(2)}`
+                  ? `₹${dish.price.toFixed(2)}`
                   : "--"}
               </div>
             </div>
@@ -216,7 +216,7 @@ const DishDetail: React.FC = () => {
                     <div className="mb-1">
                       <strong>Price:</strong>{" "}
                       {typeof dish.price === "number"
-                        ? `$${dish.price.toFixed(2)}`
+                        ? `₹${dish.price.toFixed(2)}`
                         : "-"}
                     </div>
                     {dish.description && (
@@ -244,7 +244,7 @@ const DishDetail: React.FC = () => {
                     <div className="row row-cols-1 row-cols-md-2 g-3">
                       {topRecent.map((r) => (
                         <div key={r._id} className="col">
-                          <div className="border rounded p-2 h-100 d-flex flex-column rating-mini-card">
+                          <div className="rounded p-2 h-100 d-flex flex-column rating-mini-card">
                             <div className="d-flex justify-content-between align-items-start mb-1">
                               <span className="fw-semibold small clamp-1">
                                 {new Date(r.dateVisited).toLocaleDateString()}
@@ -272,7 +272,7 @@ const DishDetail: React.FC = () => {
                               </div>
                             </div>
                             <button
-                              className="btn btn-sm btn-outline-primary mt-auto"
+                              className="btn btn-sm btn-outline-primary mt-auto align-self-center"
                               onClick={() =>
                                 navigate(`/tools/savorscore/rating/${r._id}`)
                               }
@@ -327,7 +327,7 @@ const DishDetail: React.FC = () => {
                           </div>
                         </div>
                         <button
-                          className="btn btn-sm btn-outline-primary mt-auto"
+                          className="btn btn-sm btn-outline-primary mt-auto align-self-center"
                           onClick={() =>
                             navigate(`/tools/savorscore/rating/${r._id}`)
                           }

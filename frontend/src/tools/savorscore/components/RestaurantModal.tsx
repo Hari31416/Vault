@@ -141,10 +141,10 @@ const RestaurantModal: React.FC<RestaurantModalProps> = ({
                     onChange={handleChange}
                   >
                     <option value="">Select price range</option>
-                    <option value="$">$ - Budget</option>
-                    <option value="$$">$$ - Moderate</option>
-                    <option value="$$$">$$$ - Expensive</option>
-                    <option value="$$$$">$$$$ - Very Expensive</option>
+                    <option value="₹">₹ - Budget</option>
+                    <option value="₹₹">₹₹ - Moderate</option>
+                    <option value="₹₹₹">₹₹₹ - Expensive</option>
+                    <option value="₹₹₹₹">₹₹₹₹ - Very Expensive</option>
                   </select>
                 </div>
               </div>

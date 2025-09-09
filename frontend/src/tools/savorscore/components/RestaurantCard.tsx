@@ -15,7 +15,16 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
   onDelete,
   onViewDetails,
 }) => {
-  const priceRangeDisplay = restaurant.priceRange || "Not specified";
+  // Support legacy data that may still use $ tiers by mapping to ₹ equivalents
+  const legacyToRupee: Record<string, string> = {
+    $: "₹",
+    $$: "₹₹",
+    $$$: "₹₹₹",
+    $$$$: "₹₹₹₹",
+  };
+  const priceRangeDisplay = restaurant.priceRange
+    ? legacyToRupee[restaurant.priceRange] || restaurant.priceRange
+    : "Not specified";
   const { state } = useSavorScore();
   const ratings = state.ratings.filter(
     (r) => r.restaurantId === restaurant._id

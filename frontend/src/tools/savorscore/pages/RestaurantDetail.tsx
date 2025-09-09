@@ -253,7 +253,16 @@ const RestaurantDetail: React.FC = () => {
                     </div>
                     <div className="mb-1">
                       <strong>Price Range:</strong>{" "}
-                      {restaurant.priceRange || "-"}
+                      {(() => {
+                        const legacyMap: Record<string, string> = {
+                          $: "₹",
+                          $$: "₹₹",
+                          $$$: "₹₹₹",
+                          $$$$: "₹₹₹₹",
+                        };
+                        const pr = restaurant.priceRange;
+                        return pr ? legacyMap[pr] || pr : "-";
+                      })()}
                     </div>
                     <div className="mb-1">
                       <strong>Cuisine:</strong> {restaurant.cuisine || "-"}
@@ -296,7 +305,7 @@ const RestaurantDetail: React.FC = () => {
                     <div className="row row-cols-1 row-cols-md-2 g-3">
                       {topRecent.map((r) => (
                         <div key={r._id} className="col">
-                          <div className="border rounded p-2 h-100 d-flex flex-column rating-mini-card">
+                          <div className="rounded p-2 h-100 d-flex flex-column rating-mini-card">
                             <div className="d-flex justify-content-between align-items-start mb-1">
                               <span className="fw-semibold small clamp-1">
                                 {r.dishName || "Dish"}
@@ -320,7 +329,7 @@ const RestaurantDetail: React.FC = () => {
                               </div>
                             </div>
                             <button
-                              className="btn btn-sm btn-outline-primary mt-auto"
+                              className="btn btn-sm btn-outline-primary mt-auto align-self-center"
                               onClick={() =>
                                 navigate(`/tools/savorscore/rating/${r._id}`)
                               }
@@ -387,7 +396,7 @@ const RestaurantDetail: React.FC = () => {
                           <div className="d-flex justify-content-between align-items-center mt-auto">
                             {typeof d.price === "number" ? (
                               <span className="badge bg-success">
-                                ${d.price.toFixed(2)}
+                                ₹{d.price.toFixed(2)}
                               </span>
                             ) : (
                               <span className="text-muted small">No price</span>
@@ -448,7 +457,7 @@ const RestaurantDetail: React.FC = () => {
                           </div>
                         </div>
                         <button
-                          className="btn btn-sm btn-outline-primary mt-auto"
+                          className="btn btn-sm btn-outline-primary mt-auto align-self-center"
                           onClick={() =>
                             navigate(`/tools/savorscore/rating/${r._id}`)
                           }

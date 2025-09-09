@@ -3,7 +3,8 @@ export interface Restaurant {
   name: string;
   address?: string;
   cuisine?: string;
-  priceRange?: "$" | "$$" | "$$$" | "$$$$";
+  // Updated to Indian Rupee tiers
+  priceRange?: "₹" | "₹₹" | "₹₹₹" | "₹₹₹₹";
   website?: string;
   phone?: string;
   notes?: string;
@@ -15,7 +16,7 @@ export interface RestaurantFormData {
   name: string;
   address?: string;
   cuisine?: string;
-  priceRange?: "$" | "$$" | "$$$" | "$$$$";
+  priceRange?: "₹" | "₹₹" | "₹₹₹" | "₹₹₹₹";
   website?: string;
   phone?: string;
   notes?: string;

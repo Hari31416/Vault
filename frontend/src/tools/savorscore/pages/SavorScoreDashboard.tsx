@@ -200,7 +200,7 @@ const SavorScoreDashboard: React.FC = () => {
       <div className="row mb-4">
         <div className="col-12">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h1>SavorScore</h1>
+            <h1>TasteVault</h1>
             <button
               className="btn btn-primary"
               onClick={() => navigate("/tools/savorscore/analytics")}

@@ -167,7 +167,7 @@ const DishModal: React.FC<DishModalProps> = ({
                 </div>
                 <div className="col-md-4 mb-3">
                   <label htmlFor="price" className="form-label">
-                    Price ($)
+                    Price (₹)
                   </label>
                   <input
                     type="number"
