@@ -80,6 +80,7 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   /* Remove transition from body to prevent glitching */
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 #root {
